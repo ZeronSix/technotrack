@@ -1,0 +1,76 @@
+\hypertarget{input_8c}{}\section{input.\+c File Reference}
+\label{input_8c}\index{input.\+c@{input.\+c}}
+{\ttfamily \#include $<$stdio.\+h$>$}\\*
+{\ttfamily \#include $<$stdlib.\+h$>$}\\*
+Include dependency graph for input.\+c\+:
+% FIG 0
+\subsection*{Macros}
+\begin{DoxyCompactItemize}
+\item 
+\#define \hyperlink{input_8c_a6b20d41d6252e9871430c242cb1a56e7}{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}~1024
+\end{DoxyCompactItemize}
+\subsection*{Functions}
+\begin{DoxyCompactItemize}
+\item 
+int \hyperlink{input_8c_a35bca5d86e26c0a7a4388c3d81d1721f}{input\+\_\+preallocated} (char $\ast$buffer, size\+\_\+t max\+\_\+len)
+\item 
+char $\ast$ \hyperlink{input_8c_ac6bf8e1cc19c73cc7d5b7333771a0f4d}{input\+\_\+static} (void)
+\item 
+char $\ast$ \hyperlink{input_8c_a3354d853d8e8b4c7fb0c1a87a293fa5e}{input\+\_\+dynamic} (void)
+\item 
+int {\bfseries main} ()\hypertarget{input_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}{}\label{input_8c_ae66f6b31b5ad750f1fe042a706a4e3d4}
+
+\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+\begin{DoxyAuthor}{Author}
+Vyacheslav \char`\"{}\+Zeron\+Six\char`\"{} Zhdanovskiy \href{mailto:zeronsix@gmail.com}{\tt zeronsix@gmail.\+com}
+\end{DoxyAuthor}
+A solution for the excercise 2. 
+
+\subsection{Macro Definition Documentation}
+\index{input.\+c@{input.\+c}!B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE@{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}}
+\index{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE@{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}!input.\+c@{input.\+c}}
+\subsubsection[{\texorpdfstring{B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE}{BUFFER_SIZE}}]{\setlength{\rightskip}{0pt plus 5cm}\#define B\+U\+F\+F\+E\+R\+\_\+\+S\+I\+ZE~1024}\hypertarget{input_8c_a6b20d41d6252e9871430c242cb1a56e7}{}\label{input_8c_a6b20d41d6252e9871430c242cb1a56e7}
+Default buffer size 
+
+\subsection{Function Documentation}
+\index{input.\+c@{input.\+c}!input\+\_\+dynamic@{input\+\_\+dynamic}}
+\index{input\+\_\+dynamic@{input\+\_\+dynamic}!input.\+c@{input.\+c}}
+\subsubsection[{\texorpdfstring{input\+\_\+dynamic(void)}{input_dynamic(void)}}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ input\+\_\+dynamic (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{input_8c_a3354d853d8e8b4c7fb0c1a87a293fa5e}{}\label{input_8c_a3354d853d8e8b4c7fb0c1a87a293fa5e}
+Reads a string from stdin to dynamically allocated buffer. If the reallocating process fails, the reading stops. Don\textquotesingle{}t forget to free() it! \begin{DoxyReturn}{Returns}
+A pointer to the buffer. 
+\end{DoxyReturn}
+\index{input.\+c@{input.\+c}!input\+\_\+preallocated@{input\+\_\+preallocated}}
+\index{input\+\_\+preallocated@{input\+\_\+preallocated}!input.\+c@{input.\+c}}
+\subsubsection[{\texorpdfstring{input\+\_\+preallocated(char $\ast$buffer, size\+\_\+t max\+\_\+len)}{input_preallocated(char *buffer, size_t max_len)}}]{\setlength{\rightskip}{0pt plus 5cm}int input\+\_\+preallocated (
+\begin{DoxyParamCaption}
+\item[{char $\ast$}]{buffer, }
+\item[{size\+\_\+t}]{max\+\_\+len}
+\end{DoxyParamCaption}
+)}\hypertarget{input_8c_a35bca5d86e26c0a7a4388c3d81d1721f}{}\label{input_8c_a35bca5d86e26c0a7a4388c3d81d1721f}
+Reads a string from stdin to preallocated buffer. 
+\begin{DoxyParams}[1]{Parameters}
+\mbox{\tt out}  & {\em buffer} & The buffer to read to. \\
+\hline
+\mbox{\tt in}  & {\em max\+\_\+len} & The maximum length of the buffer (including \textquotesingle{}\textbackslash{}0\textquotesingle{}) \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+The count of chars read (without \textquotesingle{}\textbackslash{}0\textquotesingle{}). 
+\end{DoxyReturn}
+\index{input.\+c@{input.\+c}!input\+\_\+static@{input\+\_\+static}}
+\index{input\+\_\+static@{input\+\_\+static}!input.\+c@{input.\+c}}
+\subsubsection[{\texorpdfstring{input\+\_\+static(void)}{input_static(void)}}]{\setlength{\rightskip}{0pt plus 5cm}char $\ast$ input\+\_\+static (
+\begin{DoxyParamCaption}
+\item[{void}]{}
+\end{DoxyParamCaption}
+)}\hypertarget{input_8c_ac6bf8e1cc19c73cc7d5b7333771a0f4d}{}\label{input_8c_ac6bf8e1cc19c73cc7d5b7333771a0f4d}
+Reads a string from stdin to statically buffer. \begin{DoxyReturn}{Returns}
+A pointer to the buffer. 
+\end{DoxyReturn}
