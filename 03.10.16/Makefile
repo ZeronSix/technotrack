@@ -9,4 +9,4 @@ help:
 	doxygen
 
 clean:
-	rm -rf *.o input string_funcs
+	rm -rf *.o input string_funcs help
