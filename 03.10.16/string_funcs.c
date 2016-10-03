@@ -176,7 +176,7 @@ int main()
     test(my_strstr("abc", "wxyz") == NULL);
     
     char s[] = "; , one,two; three";
-    printf("\n# strok test string:\n# %s\n", s);
+    printf("\n# strtok test string:\n# %s\n", s);
     test(my_strcmp(my_strtok(s, ";, "), "one") == 0);
     test(my_strcmp(my_strtok(NULL, ";, "), "two") == 0);
     test(my_strcmp(my_strtok(NULL, ";, "), "three") == 0);
