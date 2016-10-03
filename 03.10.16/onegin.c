@@ -11,6 +11,9 @@
 #include <ctype.h>
 #include <stdbool.h>
 
+/*
+ * Error message codes.
+ */
 enum
 {
     ONG_OK = 0,
@@ -20,12 +23,18 @@ enum
     ONG_ERR_ALLOC
 };
 
+/*
+ * A pair that contains a pointer to a string and the length of it.
+ */
 typedef struct 
 {
     char *str;
     size_t len;
 } String;
 
+/*
+ * Structuring for storing an array of strings read from a text file.
+ */
 typedef struct
 {
     size_t size;
@@ -36,10 +45,28 @@ typedef struct
     String *strings;
 } Text;
 
+/*
+ * Reads the content of a text file.
+ * \param[out] text A pointer to a Text structure (must be not NULL).
+ * \param[in] filename A path to the file.
+ * \return Error code or ONG_OK if no errors occured.
+ */
 int read_text(Text *text, const char *filename);
+/*
+ * Frees the memory allocated by read_text().
+ */
 void close_text(Text *text);
+/*
+ * String comparator for qsort() that skips punctuation symbols.
+ */
 int strcmp_skip_punctuation(const void *p1, const void *p2);
+/*
+ * Reversed string comparator for qsort() that skips punctuation symbols.
+ */
 int strcmp_skip_punctuation_reversed(const void *p1, const void *p2);
+/*
+ * Saves text content to a file on the disk.
+ */
 int write_text(Text *text, const char *filename);
 
 int main(int argc, char **argv)

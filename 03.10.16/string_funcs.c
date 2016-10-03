@@ -13,11 +13,29 @@
  */
 #define test(x) { printf("# Testing %s... ", #x); x ? printf("correct!\n") : printf("incorrect!\n"); }
 
+/*!
+ * An alternative to stdlib's strlen().
+ */
 size_t my_strlen(const char *str);
+/*!
+ * An alternative to stdlib's strncpy()
+ */
 char *my_strncpy(char *s, const char *ct, size_t num);
+/*!
+ * An alternative to stdlib's strncat()
+ */
 char *my_strncat(char *s, const char *ct, size_t num);
+/*!
+ * An alternative to stdlib's strcmp()
+ */
 int my_strcmp(const char *s1, const char *s2);
+/*!
+ * An alternative to stdlib's strstr()
+ */
 char *my_strstr(const char *cs, const char *ct);
+/*!
+ * An alternative to stdlib's strtok()
+ */
 char *my_strtok(char *s, const char *ct);
 
 size_t my_strlen(const char *str)
