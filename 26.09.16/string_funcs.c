@@ -41,7 +41,7 @@ char *my_strtok(char *s, const char *ct);
 size_t my_strlen(const char *str)
 {
     assert(str);
-    int n;
+    int n = 0;
 
     for (n = 0; *str != '\0'; str++)
         n++;
