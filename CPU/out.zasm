@@ -1,0 +1,11 @@
+in
+in
+add
+out
+push 10
+push 5
+mul
+out
+push 3.14
+sin
+out

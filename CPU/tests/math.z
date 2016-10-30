@@ -1,0 +1,6 @@
+mov ax, 10
+mov bx, 5
+add ax, bx
+out
+mul ax, bx
+out

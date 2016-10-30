@@ -1,0 +1,10 @@
+; Push two numbers
+push 10
+push 15
+; Add and pop
+mov ax, sp
+pop
+mov bx, sp
+pop
+add ax, bx
+out

@@ -1,0 +1,15 @@
+ ; STUPID ssdsdad\ COMMENT
+        ; ALSO STUPID COMMENT sin
+in
+in
+add
+out
+    push 10
+    push ; test 
+    5
+   mul  ; ANOTHER STUPID COMMENT
+    out
+    push ; w
+3.14
+sin 
+    out

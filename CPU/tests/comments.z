@@ -1,0 +1,10 @@
+; COMMENT sin 3.14
+push ; COMMENT
+10
+out ; COMMENT
+; COMMENT out
+push 5
+; COMMENT
+; COMMENT
+out
+; COMMENT

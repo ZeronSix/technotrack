@@ -14,7 +14,7 @@
 
 typedef enum
 {
-    EZ_ERR_OK = 0,
+    EZ_OK = 0,
     EZ_ERR_MEMORY_ALLOC,
     EZ_ERR_VERIFY,
     EZ_ERR_STACK_INCORRECT_PUSH,
