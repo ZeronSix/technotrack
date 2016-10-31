@@ -1,12 +1,12 @@
 #include <assert.h>
-#include "double_stack.h"
+#include "int_stack.h"
 
-int doublestack_new(DoubleStack *this_, size_t alloc_size)
+int intstack_new(IntStack *this_, size_t alloc_size)
 {
     assert(this_);
     assert(alloc_size > 0);
 
-    double *data = (double *)calloc(alloc_size, sizeof(*data));
+    int *data = (int *)calloc(alloc_size, sizeof(*data));
     if (!data)
     {
         return ZCPU_ERR_MEM_ALLOC;
@@ -18,7 +18,7 @@ int doublestack_new(DoubleStack *this_, size_t alloc_size)
     return ZCPU_OK;
 }
 
-void doublestack_del(DoubleStack *this_)
+void intstack_del(IntStack *this_)
 {
     if (!this_)
         return;
@@ -29,7 +29,7 @@ void doublestack_del(DoubleStack *this_)
     this_->alloc_size = 0;
 }
 
-int doublestack_push(DoubleStack *this_, double item)
+int intstack_push(IntStack *this_, int item)
 {
     assert(this_);
     if (this_->index == this_->alloc_size)
@@ -41,7 +41,7 @@ int doublestack_push(DoubleStack *this_, double item)
     return ZCPU_OK;
 }
 
-int doublestack_pop(DoubleStack *this_, double *item)
+int intstack_pop(IntStack *this_, int *item)
 {
     assert(this_);
 

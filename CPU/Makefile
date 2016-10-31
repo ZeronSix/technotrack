@@ -22,8 +22,11 @@ zcpu.o: zcpu.c
 zasm.o: zasm.c
 	$(CC) $(CFLAGS) zasm.c
 
-double_stack.o: double_stack.c
+double_stack.o: scripts double_stack.c
 	$(CC) $(CFLAGS) double_stack.c
+	
+int_stack.o: scripts int_stack.c
+	$(CC) $(CFLAGS) int_stack.c
 
 cpu_arch.o: scripts cpu_arch.c
 	$(CC) $(CFLAGS) cpu_arch.c
@@ -33,6 +36,8 @@ io.o: io.c
 
 scripts:
 	./cpu_header_gen.py
+	./stack_gen.py int_stack.h int_stack.c intstack_ IntStack int
+	./stack_gen.py double_stack.h double_stack.c doublestack_ DoubleStack double
 
 help:
 	doxygen
