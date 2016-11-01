@@ -1,0 +1,6 @@
+jae 15, 10, 2:
+push 1
+out 
+2:
+push 2
+out

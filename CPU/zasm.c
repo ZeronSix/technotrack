@@ -4,6 +4,8 @@
  */
 #include "zasm.h"
 #include "io.h"
+#include "int_stack.h"
+#include "ptr_stack.h"
 #include <assert.h>
 #include <stdio.h>  
 #include <stdlib.h>
@@ -31,7 +33,7 @@ static int read_const_arg(char **str_ptr, double *arg)
 
     double tmp = 0;
     int len = 0;
-    DO_OR_RET_ERR(sscanf(*str_ptr, "%lg%n", &tmp, &len) != 1, ZCPU_ERR_WRONG_INPUT);
+    DO_OR_RET_ERR(sscanf(*str_ptr, "%lg%n[^:]", &tmp, &len) != 1, ZCPU_ERR_WRONG_INPUT);
     *str_ptr += len;
 
     *arg = tmp;
@@ -147,7 +149,31 @@ static int read_reg(char **str_ptr, Byte *code)
     {
         REG_READER(str_ptr, str, cmd_len, code, ZCPU_ERR_WRONG_INPUT);
     }  
-    
+
+    return ZCPU_OK;
+}
+
+/*!
+ * Reads a label and shifts the pointer.
+ */
+static int read_label(char **str_ptr, unsigned *label)
+{
+    assert(str_ptr);
+    assert(*str_ptr);
+    assert(label);
+
+    int lab_len = 0;
+    unsigned tmp = 0;
+    if (sscanf(*str_ptr, " %d:%n", &tmp, &lab_len) == 1)
+    {
+        *label = tmp; 
+        *str_ptr += lab_len + 1;
+    }
+    else 
+    {
+        return ZCPU_ERR_NOT_A_LABEL;
+    }
+
     return ZCPU_OK;
 }
 
@@ -163,14 +189,30 @@ static int run(TextBuffer *text, Byte *buffer, size_t *buf_len)
     char *str_ptr = text->buf;
     Byte *cur_ptr = buffer;
     int cmd_code = CMD_UNKNOWN;
+    Byte* labels[MAX_LABEL] = {};
+    PtrStack addrstack = {};
+    IntStack labelstack = {};
+    DO_OR_RET_ERR(ptrstack_new(&addrstack, MAX_LABEL_STACK), ZCPU_ERR_INIT);
+    DO_OR_RET_ERR(intstack_new(&labelstack, MAX_LABEL_STACK), ZCPU_ERR_INIT);
 
     do
     {
         Byte addr_mode = ADDR_MODE_CONST;
         double arg = 0;
         Byte reg = 0;
+        unsigned label = 0;
 
         skip_comments(&str_ptr);
+        if (read_label(&str_ptr, &label) == ZCPU_OK)
+        {
+            if (labels[label] != NULL)
+            {
+                return ZCPU_ERR_LABEL_REDEFINITION;
+            }
+            labels[label] = cur_ptr;
+        }
+        skip_comments(&str_ptr);
+
         if (read_cmd(&str_ptr, &cmd_code) != ZCPU_OK)
         {
             return ZCPU_ERR_WRONG_INPUT;
@@ -183,8 +225,22 @@ static int run(TextBuffer *text, Byte *buffer, size_t *buf_len)
         write_byte(&cur_ptr, cmd_code);
         ARG_ASM_HANDLER(cmd_code);
     } while (cmd_code != CMD_UNKNOWN);
-    
+
+    // write label adresses
+    size_t len = addrstack.index;
+    for (size_t i = 0; i < len; i++)
+    {
+        void *addr = NULL;
+        int label = 0;
+
+        DO_OR_RET_ERR(ptrstack_pop(&addrstack, &addr), ZCPU_ERR_STACK_UNDERFLOW);
+        DO_OR_RET_ERR(intstack_pop(&labelstack, &label), ZCPU_ERR_STACK_UNDERFLOW);
+        *(double *)addr = labels[label] - buffer;
+    }
+
     *buf_len = cur_ptr - buffer;
+    ptrstack_del(&addrstack);
+    intstack_del(&labelstack);
     return ZCPU_OK;
 }
 

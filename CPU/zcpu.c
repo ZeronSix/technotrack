@@ -149,6 +149,9 @@ static int run(CPU *cpu, Byte *buffer, size_t buf_size)
     assert(buffer);
 
     Byte *buf_ptr = buffer;
+    DoubleStack callstack = {};
+    DO_OR_RET_ERR(doublestack_new(&callstack, MAX_STACK), ZCPU_ERR_INIT);
+
     while (*buf_ptr)  
     {
         unsigned char cmd = CMD_UNKNOWN;
@@ -185,7 +188,7 @@ static int run(CPU *cpu, Byte *buffer, size_t buf_size)
                           ZCPU_ERR_WRONG_BINARY);
             DO_OR_RET_ERR(get_arg(cpu, &buf_ptr, &arg2),
                           ZCPU_ERR_WRONG_BINARY);
-            DO_OR_RET_ERR(doublestack_push(&cpu->stack, arg2 - arg1),
+            DO_OR_RET_ERR(doublestack_push(&cpu->stack, arg1 - arg2),
                           ZCPU_ERR_STACK_OVERFLOW);
         }
         else if (cmd == CMD_MUL)
@@ -250,7 +253,7 @@ static int run(CPU *cpu, Byte *buffer, size_t buf_size)
         else if (cmd == CMD_MOV)
         {
             Byte reg = 0;
-            double arg = 0;
+            double arg = 1;
             Byte ad_mode = 0;
 
             DO_OR_RET_ERR(get_byte(&buf_ptr, &ad_mode),
@@ -379,11 +382,31 @@ static int run(CPU *cpu, Byte *buffer, size_t buf_size)
                               ZCPU_ERR_OUT_OF_BOUNDS); 
             }
         }
+        else if (cmd == CMD_CALL)
+        {
+            double arg = 0;
+            DO_OR_RET_ERR(get_arg(cpu, &buf_ptr, &arg),
+                          ZCPU_ERR_WRONG_BINARY);
+            DO_OR_RET_ERR(jump(buffer, &buf_ptr, arg, buf_size),
+                          ZCPU_ERR_OUT_OF_BOUNDS);
+            DO_OR_RET_ERR(doublestack_push(&callstack, buf_ptr - buffer),
+                          ZCPU_ERR_STACK_OVERFLOW);
+        }
+        else if (cmd == CMD_RET)
+        {
+            double addr = 0;
+            DO_OR_RET_ERR(doublestack_pop(&callstack, &addr),
+                          ZCPU_ERR_STACK_UNDERFLOW);
+            DO_OR_RET_ERR(jump(buffer, &buf_ptr, addr, buf_size),
+                          ZCPU_ERR_OUT_OF_BOUNDS);
+        }
         else 
         { 
             return ZCPU_ERR_WRONG_CMD;
         }
     }
+
+    doublestack_del(&callstack);
     return ZCPU_OK;    
 }
 

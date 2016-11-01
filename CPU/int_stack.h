@@ -29,10 +29,10 @@ void intstack_del(IntStack *this_);
 /*!
  * int push method.
  */ 
-int intstack_push(IntStack *this_, double item);
+int intstack_push(IntStack *this_, int item);
 /*!
  * int stack pop method.
  */
-int intstack_pop(IntStack *this_, double *item);
+int intstack_pop(IntStack *this_, int *item);
 
 #endif /* ifndef INT_STACK_H */

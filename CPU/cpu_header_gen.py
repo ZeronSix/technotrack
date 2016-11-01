@@ -17,45 +17,48 @@ ARGS = 2
 # Adress modes
 ADDR_MODE_CONST = 2
 ADDR_MODE_REGISTER = 3
+ADDR_MODE_LABEL = 4
 
 # Define commands and registers here
 COMMANDS = [
-        ("push", 128, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER }, )),
+        ("push", 128, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ), )),
         ("pop", 129, ()),
-        ("add", 130, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                       { ADDR_MODE_CONST, ADDR_MODE_REGISTER } )),
-        ("sub", 131, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                       { ADDR_MODE_CONST, ADDR_MODE_REGISTER } )),
-        ("mul", 132, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                       { ADDR_MODE_CONST, ADDR_MODE_REGISTER  } )),
-        ("div", 133, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                       { ADDR_MODE_CONST, ADDR_MODE_REGISTER  } )),
-        ("sin", 134, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER }, )),
-        ("cos", 135, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER }, )),
-        ("sqrt", 136, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER }, )),
-        ("in", 137, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER }, )),
+        ("add", 130, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                       ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ) )),
+        ("sub", 131, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                       ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ) )),
+        ("mul", 132, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                       ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ) )),
+        ("div", 133, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                       ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ) )),
+        ("sin", 134, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ), )),
+        ("cos", 135, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ), )),
+        ("sqrt", 136, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ), )),
+        ("in", 137, ()),
         ("out", 138, ()),
-        ("mov", 139, ( { ADDR_MODE_REGISTER },
-                       { ADDR_MODE_CONST, ADDR_MODE_REGISTER } )),
-        ("jmp", 140, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER }, )),
-        ("je", 141, ( { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER })),
-        ("jne", 142, ({ ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER })),
-        ("ja", 143, ({ ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER })),
-        ("jae", 144, ({ ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER })),
-        ("jb", 145, ({ ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER })),
-        ("jbe", 146, ({ ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER },
-                      { ADDR_MODE_CONST, ADDR_MODE_REGISTER }))
+        ("mov", 139, ( ( ADDR_MODE_REGISTER, ),
+                       ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ) )),
+        ("jmp", 140, ( ( ADDR_MODE_LABEL, ADDR_MODE_CONST, ADDR_MODE_REGISTER ), )),
+        ("je", 141, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_LABEL, ADDR_MODE_CONST, ADDR_MODE_REGISTER ))),
+        ("jne", 142, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_LABEL, ADDR_MODE_CONST, ADDR_MODE_REGISTER ))),
+        ("ja", 143, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_LABEL, ADDR_MODE_CONST, ADDR_MODE_REGISTER ))),
+        ("jae", 144, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_LABEL, ADDR_MODE_CONST, ADDR_MODE_REGISTER ))),
+        ("jb", 145, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_LABEL, ADDR_MODE_CONST, ADDR_MODE_REGISTER ))),
+        ("jbe", 146, ( ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_CONST, ADDR_MODE_REGISTER ),
+                      ( ADDR_MODE_LABEL, ADDR_MODE_CONST, ADDR_MODE_REGISTER ))),
+        ("call", 147, ( (ADDR_MODE_LABEL, ADDR_MODE_CONST), ) ),
+        ("ret", 148, () )
         ]
 REGISTERS = [
         ("ax", 2),
@@ -67,15 +70,18 @@ REGISTERS = [
         ]
 ADDR_MODES = [
         ("const", ADDR_MODE_CONST),
-        ("register", ADDR_MODE_REGISTER)
+        ("register", ADDR_MODE_REGISTER),
+        ("label", ADDR_MODE_LABEL) # Only to be used within assembler
         ]
 ADDR_FUNCS = {
         ADDR_MODE_CONST: "read_const_arg",
-        ADDR_MODE_REGISTER: "read_reg"
+        ADDR_MODE_REGISTER: "read_reg",
+        ADDR_MODE_LABEL: "read_label"
         }
 ADDR_FUNC_ARGS = {
         ADDR_MODE_CONST: "arg",
-        ADDR_MODE_REGISTER: "reg"
+        ADDR_MODE_REGISTER: "reg",
+        ADDR_MODE_LABEL: "label"
         }
 
 ENUM_TEMPLATE = "    {prefix}{name} = {code}{end}\n" 
@@ -207,14 +213,21 @@ ARG_ASM_HANDLER_CMD_TEMPLATE = """            addr_mode = ADDR_MODE_CONST; \\
                 return ZCPU_ERR_WRONG_INPUT; \\
             }} \\
             \\
-            write_byte(&cur_ptr, addr_mode); \\
             switch (addr_mode) \\
             {{\\
                 case ADDR_MODE_CONST: \\
+                    write_byte(&cur_ptr, addr_mode); \\
                     write_double(&cur_ptr, arg); \\
                     break; \\
                 case ADDR_MODE_REGISTER: \\
+                    write_byte(&cur_ptr, addr_mode); \\
                     write_byte(&cur_ptr, reg); \\
+                    break; \\
+                case ADDR_MODE_LABEL: \\
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \\
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \\
+                    intstack_push(&labelstack, label); \\
+                    write_double(&cur_ptr, 0); \\
                     break; \\
                 default: \\
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \\

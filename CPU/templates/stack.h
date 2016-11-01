@@ -29,10 +29,10 @@ void {prefix}del({name} *this_);
 /*!
  * {T} push method.
  */ 
-int {prefix}push({name} *this_, double item);
+int {prefix}push({name} *this_, {T} item);
 /*!
  * {T} stack pop method.
  */
-int {prefix}pop({name} *this_, double *item);
+int {prefix}pop({name} *this_, {T} *item);
 
 #endif /* ifndef {filename} */

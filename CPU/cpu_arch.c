@@ -17,6 +17,8 @@ const char *CMD_NAME_JA = "JA";
 const char *CMD_NAME_JAE = "JAE";
 const char *CMD_NAME_JB = "JB";
 const char *CMD_NAME_JBE = "JBE";
+const char *CMD_NAME_CALL = "CALL";
+const char *CMD_NAME_RET = "RET";
 
 const char *REG_NAME_AX = "AX";
 const char *REG_NAME_BX = "BX";

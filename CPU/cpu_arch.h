@@ -19,7 +19,8 @@ enum
 {
     ADDR_MODE_UNKNOWN = 1,
     ADDR_MODE_CONST = 2,
-    ADDR_MODE_REGISTER = 3
+    ADDR_MODE_REGISTER = 3,
+    ADDR_MODE_LABEL = 4
 };
 
 /*!
@@ -46,7 +47,9 @@ enum
     CMD_JA = 143,
     CMD_JAE = 144,
     CMD_JB = 145,
-    CMD_JBE = 146
+    CMD_JBE = 146,
+    CMD_CALL = 147,
+    CMD_RET = 148
 };
 
 /*!
@@ -81,6 +84,8 @@ extern const char *CMD_NAME_JA;
 extern const char *CMD_NAME_JAE;
 extern const char *CMD_NAME_JB;
 extern const char *CMD_NAME_JBE;
+extern const char *CMD_NAME_CALL;
+extern const char *CMD_NAME_RET;
 
 
 extern const char *REG_NAME_AX;
@@ -190,6 +195,16 @@ extern const char *REG_NAME_SP;
         *_ptr_ += _len_; \
         *_code_ = 146; \
     }\
+    else if (strcasecmp(CMD_NAME_CALL, str) == 0) \
+    {\
+        *_ptr_ += _len_; \
+        *_code_ = 147; \
+    }\
+    else if (strcasecmp(CMD_NAME_RET, str) == 0) \
+    {\
+        *_ptr_ += _len_; \
+        *_code_ = 148; \
+    }\
     else \
     { \
         return _err_code_; \
@@ -298,6 +313,12 @@ extern const char *REG_NAME_SP;
     case 146: \
         fprintf(_fout_, "%s", "jbe"); \
         break; \
+    case 147: \
+        fprintf(_fout_, "%s", "call"); \
+        break; \
+    case 148: \
+        fprintf(_fout_, "%s", "ret"); \
+        break; \
     default: \
         return ZCPU_ERR_WRONG_BINARY; \
     } \
@@ -354,14 +375,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -388,14 +416,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -419,14 +454,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -450,14 +492,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -481,14 +530,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -512,14 +568,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -543,14 +606,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -574,14 +644,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -605,14 +682,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -636,14 +720,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -667,14 +758,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -698,14 +796,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -714,34 +819,6 @@ extern const char *REG_NAME_SP;
  \
             break; \
         case CMD_IN:\
-            addr_mode = ADDR_MODE_CONST; \
-            skip_comments(&str_ptr); \
-            if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
-            { \
-                addr_mode = 2; \
-            } \
-            else if (read_reg(&str_ptr, &reg) == ZCPU_OK) \
-            { \
-                addr_mode = 3; \
-            } \
-            else \
-            { \
-                return ZCPU_ERR_WRONG_INPUT; \
-            } \
-            \
-            write_byte(&cur_ptr, addr_mode); \
-            switch (addr_mode) \
-            {\
-                case ADDR_MODE_CONST: \
-                    write_double(&cur_ptr, arg); \
-                    break; \
-                case ADDR_MODE_REGISTER: \
-                    write_byte(&cur_ptr, reg); \
-                    break; \
-                default: \
-                    return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
-            } \
-\
  \
             break; \
         case CMD_OUT:\
@@ -759,14 +836,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -790,14 +874,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -808,7 +899,11 @@ extern const char *REG_NAME_SP;
         case CMD_JMP:\
             addr_mode = ADDR_MODE_CONST; \
             skip_comments(&str_ptr); \
-            if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
+            if (read_label(&str_ptr, &label) == ZCPU_OK) \
+            { \
+                addr_mode = 4; \
+            } \
+            else if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
             { \
                 addr_mode = 2; \
             } \
@@ -821,14 +916,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -852,14 +954,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -883,14 +992,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -901,7 +1017,11 @@ extern const char *REG_NAME_SP;
             }}\
             addr_mode = ADDR_MODE_CONST; \
             skip_comments(&str_ptr); \
-            if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
+            if (read_label(&str_ptr, &label) == ZCPU_OK) \
+            { \
+                addr_mode = 4; \
+            } \
+            else if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
             { \
                 addr_mode = 2; \
             } \
@@ -914,14 +1034,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -945,14 +1072,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -976,14 +1110,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -994,7 +1135,11 @@ extern const char *REG_NAME_SP;
             }}\
             addr_mode = ADDR_MODE_CONST; \
             skip_comments(&str_ptr); \
-            if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
+            if (read_label(&str_ptr, &label) == ZCPU_OK) \
+            { \
+                addr_mode = 4; \
+            } \
+            else if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
             { \
                 addr_mode = 2; \
             } \
@@ -1007,14 +1152,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1038,14 +1190,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1069,14 +1228,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1087,7 +1253,11 @@ extern const char *REG_NAME_SP;
             }}\
             addr_mode = ADDR_MODE_CONST; \
             skip_comments(&str_ptr); \
-            if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
+            if (read_label(&str_ptr, &label) == ZCPU_OK) \
+            { \
+                addr_mode = 4; \
+            } \
+            else if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
             { \
                 addr_mode = 2; \
             } \
@@ -1100,14 +1270,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1131,14 +1308,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1162,14 +1346,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1180,7 +1371,11 @@ extern const char *REG_NAME_SP;
             }}\
             addr_mode = ADDR_MODE_CONST; \
             skip_comments(&str_ptr); \
-            if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
+            if (read_label(&str_ptr, &label) == ZCPU_OK) \
+            { \
+                addr_mode = 4; \
+            } \
+            else if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
             { \
                 addr_mode = 2; \
             } \
@@ -1193,14 +1388,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1224,14 +1426,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1255,14 +1464,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1273,7 +1489,11 @@ extern const char *REG_NAME_SP;
             }}\
             addr_mode = ADDR_MODE_CONST; \
             skip_comments(&str_ptr); \
-            if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
+            if (read_label(&str_ptr, &label) == ZCPU_OK) \
+            { \
+                addr_mode = 4; \
+            } \
+            else if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
             { \
                 addr_mode = 2; \
             } \
@@ -1286,14 +1506,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1317,14 +1544,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1348,14 +1582,21 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
@@ -1366,7 +1607,11 @@ extern const char *REG_NAME_SP;
             }}\
             addr_mode = ADDR_MODE_CONST; \
             skip_comments(&str_ptr); \
-            if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
+            if (read_label(&str_ptr, &label) == ZCPU_OK) \
+            { \
+                addr_mode = 4; \
+            } \
+            else if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
             { \
                 addr_mode = 2; \
             } \
@@ -1379,19 +1624,67 @@ extern const char *REG_NAME_SP;
                 return ZCPU_ERR_WRONG_INPUT; \
             } \
             \
-            write_byte(&cur_ptr, addr_mode); \
             switch (addr_mode) \
             {\
                 case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_double(&cur_ptr, arg); \
                     break; \
                 case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
                     write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
                     break; \
                 default: \
                     return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
             } \
 \
+ \
+            break; \
+        case CMD_CALL:\
+            addr_mode = ADDR_MODE_CONST; \
+            skip_comments(&str_ptr); \
+            if (read_label(&str_ptr, &label) == ZCPU_OK) \
+            { \
+                addr_mode = 4; \
+            } \
+            else if (read_const_arg(&str_ptr, &arg) == ZCPU_OK) \
+            { \
+                addr_mode = 2; \
+            } \
+            else \
+            { \
+                return ZCPU_ERR_WRONG_INPUT; \
+            } \
+            \
+            switch (addr_mode) \
+            {\
+                case ADDR_MODE_CONST: \
+                    write_byte(&cur_ptr, addr_mode); \
+                    write_double(&cur_ptr, arg); \
+                    break; \
+                case ADDR_MODE_REGISTER: \
+                    write_byte(&cur_ptr, addr_mode); \
+                    write_byte(&cur_ptr, reg); \
+                    break; \
+                case ADDR_MODE_LABEL: \
+                    write_byte(&cur_ptr, ADDR_MODE_CONST); \
+                    ptrstack_push(&addrstack, (void *)cur_ptr); \
+                    intstack_push(&labelstack, label); \
+                    write_double(&cur_ptr, 0); \
+                    break; \
+                default: \
+                    return ZCPU_ERR_UNKNOWN_ADDR_MODE; \
+            } \
+\
+ \
+            break; \
+        case CMD_RET:\
  \
             break; \
     default: \

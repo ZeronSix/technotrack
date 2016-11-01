@@ -130,7 +130,7 @@ int read_bytes(const char *filename, Byte *buffer, size_t max_size, size_t *size
     }
 
     size_t size_read = 0;
-    if ((size_read = fread(buffer, max_size, 1, fin)) != 0)
+    if ((size_read = fread(buffer, 1, max_size, fin)) == 0)
     {
         return ZCPU_ERR_FILE_WRITE;
     }
@@ -138,5 +138,4 @@ int read_bytes(const char *filename, Byte *buffer, size_t max_size, size_t *size
     fclose(fin);
     *size = size_read;
     return ZCPU_OK;
-    
 }
