@@ -1,0 +1,14 @@
+#! /usr/bin/gnuplot -persist
+set xrange [0:data_size]
+set yrange [0:50]
+set term wxt
+set datafile separator ","
+set boxwidth 5
+set style fill solid
+
+plot "hash1.csv" smooth freq with boxes lt 1 title "H(str) = 0", \
+     "hash2.csv" smooth freq with boxes lt 2 title "H(str) = str[0]", \
+     "hash3.csv" smooth freq with boxes lt 3 title "H(str) = strlen(str)", \
+     "hash4.csv" smooth freq with boxes lt 4 title "H(str) = сумма всех ASCII-кодов строки str", \
+     "hash5.csv" smooth freq with boxes lt 5 title "H(str) = { H0 (str) = 0; Hi (str) = rol (H i-1) ^ str[i].  }", \
+     "hash_djb2.csv" smooth freq with boxes lt 6 title "H(str) = djb2(str)"
