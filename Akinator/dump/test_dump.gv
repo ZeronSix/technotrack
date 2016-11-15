@@ -1,46 +1,23 @@
 digraph G {
-treenode_0x555fe3c69440 [label="TreeNode[0x555fe3c69440]
-{
-    left_canary = 0xFD;
-    parent = (nil);
-    type = 0;
-    data = 'test';
-    right_canary = 0xFD;
-}"]
-treenode_0x555fe3c694a0 [label="TreeNode[0x555fe3c694a0]
-{
-    left_canary = 0xFD;
-    parent = 0x555fe3c69440;
-    type = 0;
-    data = 'test1';
-    right_canary = 0xFD;
-}"]
-treenode_0x555fe3c69500 [label="TreeNode[0x555fe3c69500]
-{
-    left_canary = 0xFD;
-    parent = 0x555fe3c694a0;
-    type = 0;
-    data = 'test2';
-    right_canary = 0xFD;
-}"]
-treenode_0x555fe3c695c0 [label="TreeNode[0x555fe3c695c0]
-{
-    left_canary = 0xFD;
-    parent = 0x555fe3c69500;
-    type = 0;
-    data = 'test4';
-    right_canary = 0xFD;
-}"]
-treenode_0x555fe3c69560 [label="TreeNode[0x555fe3c69560]
-{
-    left_canary = 0xFD;
-    parent = 0x555fe3c69500;
-    type = 0;
-    data = 'test3';
-    right_canary = 0xFD;
-}"]
-treenode_0x555fe3c69500 -> treenode_0x555fe3c695c0
-treenode_0x555fe3c69500 -> treenode_0x555fe3c69560
-treenode_0x555fe3c694a0 -> treenode_0x555fe3c69500
-treenode_0x555fe3c69440 -> treenode_0x555fe3c694a0
+treenode_0x559a679b5440 [label="TreeNode[0x559a679b5440]\l{\l    left_canary = 0xFD;\l    parent = (nil);\l    type = 0;\l    data = 'test';\l    right_canary = 0xFD;\l}\l"]
+treenode_0x559a679b54a0 [label="TreeNode[0x559a679b54a0]\l{\l    left_canary = 0xFD;\l    parent = 0x559a679b5440;\l    type = 0;\l    data = 'test1';\l    right_canary = 0xFD;\l}\l"]
+treenode_0x559a679b5500 [label="TreeNode[0x559a679b5500]\l{\l    left_canary = 0xFD;\l    parent = 0x559a679b54a0;\l    type = 0;\l    data = 'test2';\l    right_canary = 0xFD;\l}\l"]
+treenode_0x559a679b55c0 [label="TreeNode[0x559a679b55c0]\l{\l    left_canary = 0xFD;\l    parent = 0x559a679b5500;\l    type = 0;\l    data = 'test4';\l    right_canary = 0xFD;\l}\l"]
+treenode_0x559a679b55c0_left [label="Empty"]
+treenode_0x559a679b55c0 -> treenode_0x559a679b55c0_left
+treenode_0x559a679b55c0_right [label="Empty"]
+treenode_0x559a679b55c0 -> treenode_0x559a679b55c0_right
+treenode_0x559a679b5560 [label="TreeNode[0x559a679b5560]\l{\l    left_canary = 0xFD;\l    parent = 0x559a679b5500;\l    type = 0;\l    data = 'test3';\l    right_canary = 0xFD;\l}\l"]
+treenode_0x559a679b5560_left [label="Empty"]
+treenode_0x559a679b5560 -> treenode_0x559a679b5560_left
+treenode_0x559a679b5560_right [label="Empty"]
+treenode_0x559a679b5560 -> treenode_0x559a679b5560_right
+treenode_0x559a679b5500 -> treenode_0x559a679b55c0
+treenode_0x559a679b5500 -> treenode_0x559a679b5560
+treenode_0x559a679b54a0_left [label="Empty"]
+treenode_0x559a679b54a0 -> treenode_0x559a679b54a0_left
+treenode_0x559a679b54a0 -> treenode_0x559a679b5500
+treenode_0x559a679b5440 -> treenode_0x559a679b54a0
+treenode_0x559a679b5440_right [label="Empty"]
+treenode_0x559a679b5440 -> treenode_0x559a679b5440_right
 }

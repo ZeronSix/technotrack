@@ -83,14 +83,14 @@ void treenode_dump(TreeNode *this_, FILE *dumpster)
     static const char *BROKEN_DATA = "!!! BROKEN DATA !!!";
     const char *data = this_->data ? this_->data : BROKEN_DATA;
 
-    fprintf(dumpster, "treenode_%p [label=\"TreeNode[%p]\n"
-                      "{\n"
-                      "    left_canary = 0x%X;\n"
-                      "    parent = %p;\n"
-                      "    type = %d;\n"
-                      "    data = \'%s\';\n"
-                      "    right_canary = 0x%X;\n"
-                      "}\"]\n", this_, this_,
+    fprintf(dumpster, "treenode_%p [label=\"TreeNode[%p]\\l"
+                      "{\\l"
+                      "    left_canary = 0x%X;\\l"
+                      "    parent = %p;\\l"
+                      "    type = %d;\\l"
+                      "    data = \'%s\';\\l"
+                      "    right_canary = 0x%X;\\l"
+                      "}\\l\"]\n", this_, this_,
                       this_->left_canary,
                       this_->parent,
                       this_->type,
@@ -100,9 +100,20 @@ void treenode_dump(TreeNode *this_, FILE *dumpster)
     treenode_dump(this_->left, dumpster);
     treenode_dump(this_->right, dumpster);
 
-    if (this_->left)
+    if (!this_->left)
+    {
+        fprintf(dumpster, "treenode_%p_left [label=\"Empty\"]\n", this_);
+        fprintf(dumpster, "treenode_%p -> treenode_%p_left\n", this_, this_);
+    }
+    else
         fprintf(dumpster, "treenode_%p -> treenode_%p\n", this_, this_->left);
-    if (this_->right)
+
+    if (!this_->right)
+    {
+        fprintf(dumpster, "treenode_%p_right [label=\"Empty\"]\n", this_);
+        fprintf(dumpster, "treenode_%p -> treenode_%p_right\n", this_, this_);
+    }
+    else
         fprintf(dumpster, "treenode_%p -> treenode_%p\n", this_, this_->right);
 }
 
