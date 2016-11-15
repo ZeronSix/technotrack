@@ -27,15 +27,28 @@ static Hash hash2(char *s)
     return (Hash)s[0];
 }
 
+static size_t strlen_ex(char *s)
+{
+    assert(s);
+    size_t l = 0;
+    while (*s != '\n' && *s)
+    {
+        s++;
+        l++;
+    }
+
+    return l;
+}
+
 static Hash hash3(char *s)
 {
-    return (Hash)strlen(s);
+    return (Hash)strlen_ex(s);
 }
 
 static Hash hash4(char *s)
 {
     Hash h = 0;
-    while (*s)
+    while (*s != '\n' && *s)
     {
         h += *s;
         s++;
@@ -53,7 +66,7 @@ static Hash hash5(char *s)
 {
     Hash h = 0;
 
-    while (*s)
+    while (*s != '\n' && *s)
     {
         h = rol(h) ^ *s;
         s++;
@@ -66,7 +79,7 @@ static Hash hash_djb2(char *s)
     Hash hash = 5381;
     int c;
 
-    while ((c = *s))
+    while ((c = *s) != '\n' && c)
     {
         hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
         s++;
@@ -97,7 +110,7 @@ char *alloc_from_file(const char *filename)
     return buf;
 }
 
-enum { LAB_MAP_SIZE = 502 };
+enum { LAB_MAP_SIZE = 497 };
 
 /*!
  * Make CSV.
@@ -132,7 +145,7 @@ static void test_hash_func(char *buf, Hash (*func)(const T), const char *out_fil
 
     Map map = {};
     map_ctor(&map, LAB_MAP_SIZE, func);
-    size_t i =0;
+    size_t i = 0;
     while (buf != NULL)
     {
         i++;
