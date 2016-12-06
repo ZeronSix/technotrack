@@ -1,47 +1,55 @@
 digraph G {
-TreeNode_0x561e2708ba90 [label="TreeNode[0x561e2708ba90]\l{\l   leftCanary  = 0xFD;\l   parent      = (nil);\l   type        = 2;\l   data        = 'Препод';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708bcf0 [label="TreeNode[0x561e2708bcf0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708ba90;\l   type        = 2;\l   data        = 'ведет матан';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708bbc0 [label="TreeNode[0x561e2708bbc0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708bcf0;\l   type        = 1;\l   data        = 'Знаменская';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708bbc0_Left [label="Empty"]
-TreeNode_0x561e2708bbc0 -> TreeNode_0x561e2708bbc0_Left
-TreeNode_0x561e2708bbc0_Right [label="Empty"]
-TreeNode_0x561e2708bbc0 -> TreeNode_0x561e2708bbc0_Right
-TreeNode_0x561e2708c1b0 [label="TreeNode[0x561e2708c1b0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708bcf0;\l   type        = 2;\l   data        = 'ведет аналит';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708c410 [label="TreeNode[0x561e2708c410]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708c1b0;\l   type        = 2;\l   data        = 'ведет допсеминары';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708c2e0 [label="TreeNode[0x561e2708c2e0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708c410;\l   type        = 1;\l   data        = 'Жестков';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708c2e0_Left [label="Empty"]
-TreeNode_0x561e2708c2e0 -> TreeNode_0x561e2708c2e0_Left
-TreeNode_0x561e2708c2e0_Right [label="Empty"]
-TreeNode_0x561e2708c2e0 -> TreeNode_0x561e2708c2e0_Right
-TreeNode_0x561e2708c080 [label="TreeNode[0x561e2708c080]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708c410;\l   type        = 1;\l   data        = 'Чубаров';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708c080_Left [label="Empty"]
-TreeNode_0x561e2708c080 -> TreeNode_0x561e2708c080_Left
-TreeNode_0x561e2708c080_Right [label="Empty"]
-TreeNode_0x561e2708c080 -> TreeNode_0x561e2708c080_Right
-TreeNode_0x561e2708c410 -> TreeNode_0x561e2708c2e0
-TreeNode_0x561e2708c410 -> TreeNode_0x561e2708c080
-TreeNode_0x561e2708b960 [label="TreeNode[0x561e2708b960]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708c1b0;\l   type        = 1;\l   data        = 'Дед';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708b960_Left [label="Empty"]
-TreeNode_0x561e2708b960 -> TreeNode_0x561e2708b960_Left
-TreeNode_0x561e2708b960_Right [label="Empty"]
-TreeNode_0x561e2708b960 -> TreeNode_0x561e2708b960_Right
-TreeNode_0x561e2708c1b0 -> TreeNode_0x561e2708c410
-TreeNode_0x561e2708c1b0 -> TreeNode_0x561e2708b960
-TreeNode_0x561e2708bcf0 -> TreeNode_0x561e2708bbc0
-TreeNode_0x561e2708bcf0 -> TreeNode_0x561e2708c1b0
-TreeNode_0x561e2708bf50 [label="TreeNode[0x561e2708bf50]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708ba90;\l   type        = 2;\l   data        = 'хз';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708be20 [label="TreeNode[0x561e2708be20]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708bf50;\l   type        = 1;\l   data        = 'Миша';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708be20_Left [label="Empty"]
-TreeNode_0x561e2708be20 -> TreeNode_0x561e2708be20_Left
-TreeNode_0x561e2708be20_Right [label="Empty"]
-TreeNode_0x561e2708be20 -> TreeNode_0x561e2708be20_Right
-TreeNode_0x561e2708b830 [label="TreeNode[0x561e2708b830]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x561e2708bf50;\l   type        = 1;\l   data        = 'Данил';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x561e2708b830_Left [label="Empty"]
-TreeNode_0x561e2708b830 -> TreeNode_0x561e2708b830_Left
-TreeNode_0x561e2708b830_Right [label="Empty"]
-TreeNode_0x561e2708b830 -> TreeNode_0x561e2708b830_Right
-TreeNode_0x561e2708bf50 -> TreeNode_0x561e2708be20
-TreeNode_0x561e2708bf50 -> TreeNode_0x561e2708b830
-TreeNode_0x561e2708ba90 -> TreeNode_0x561e2708bcf0
-TreeNode_0x561e2708ba90 -> TreeNode_0x561e2708bf50
+TreeNode_0x560bffd4e390 [label="TreeNode[0x560bffd4e390]\l{\l   leftCanary  = 0xFD;\l   parent      = (nil);\l   type        = 2;\l   data        = 'Препод';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4ded0 [label="TreeNode[0x560bffd4ded0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4e390;\l   type        = 2;\l   data        = 'ведет матан';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4d7b0 [label="TreeNode[0x560bffd4d7b0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4ded0;\l   type        = 1;\l   data        = 'Знаменская';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4d7b0_Left [label="Empty"]
+TreeNode_0x560bffd4d7b0 -> TreeNode_0x560bffd4d7b0_Left
+TreeNode_0x560bffd4d7b0_Right [label="Empty"]
+TreeNode_0x560bffd4d7b0 -> TreeNode_0x560bffd4d7b0_Right
+TreeNode_0x560bffd4dda0 [label="TreeNode[0x560bffd4dda0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4ded0;\l   type        = 2;\l   data        = 'ведет аналит';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4db40 [label="TreeNode[0x560bffd4db40]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4dda0;\l   type        = 2;\l   data        = 'ведет допсеминары';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4d8e0 [label="TreeNode[0x560bffd4d8e0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4db40;\l   type        = 1;\l   data        = 'Жестков';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4d8e0_Left [label="Empty"]
+TreeNode_0x560bffd4d8e0 -> TreeNode_0x560bffd4d8e0_Left
+TreeNode_0x560bffd4d8e0_Right [label="Empty"]
+TreeNode_0x560bffd4d8e0 -> TreeNode_0x560bffd4d8e0_Right
+TreeNode_0x560bffd4da10 [label="TreeNode[0x560bffd4da10]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4db40;\l   type        = 1;\l   data        = 'Чубаров';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4da10_Left [label="Empty"]
+TreeNode_0x560bffd4da10 -> TreeNode_0x560bffd4da10_Left
+TreeNode_0x560bffd4da10_Right [label="Empty"]
+TreeNode_0x560bffd4da10 -> TreeNode_0x560bffd4da10_Right
+TreeNode_0x560bffd4db40 -> TreeNode_0x560bffd4d8e0
+TreeNode_0x560bffd4db40 -> TreeNode_0x560bffd4da10
+TreeNode_0x560bffd4dc70 [label="TreeNode[0x560bffd4dc70]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4dda0;\l   type        = 1;\l   data        = 'Дед';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4dc70_Left [label="Empty"]
+TreeNode_0x560bffd4dc70 -> TreeNode_0x560bffd4dc70_Left
+TreeNode_0x560bffd4dc70_Right [label="Empty"]
+TreeNode_0x560bffd4dc70 -> TreeNode_0x560bffd4dc70_Right
+TreeNode_0x560bffd4dda0 -> TreeNode_0x560bffd4db40
+TreeNode_0x560bffd4dda0 -> TreeNode_0x560bffd4dc70
+TreeNode_0x560bffd4ded0 -> TreeNode_0x560bffd4d7b0
+TreeNode_0x560bffd4ded0 -> TreeNode_0x560bffd4dda0
+TreeNode_0x560bffd4e260 [label="TreeNode[0x560bffd4e260]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4e390;\l   type        = 2;\l   data        = 'хз';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4e8d0 [label="TreeNode[0x560bffd4e8d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4e260;\l   type        = 2;\l   data        = 'сделал дифференциатор';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4d680 [label="TreeNode[0x560bffd4d680]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4e8d0;\l   type        = 1;\l   data        = 'Фил';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4d680_Left [label="Empty"]
+TreeNode_0x560bffd4d680 -> TreeNode_0x560bffd4d680_Left
+TreeNode_0x560bffd4d680_Right [label="Empty"]
+TreeNode_0x560bffd4d680 -> TreeNode_0x560bffd4d680_Right
+TreeNode_0x560bffd4e000 [label="TreeNode[0x560bffd4e000]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4e8d0;\l   type        = 1;\l   data        = 'Миша';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4e000_Left [label="Empty"]
+TreeNode_0x560bffd4e000 -> TreeNode_0x560bffd4e000_Left
+TreeNode_0x560bffd4e000_Right [label="Empty"]
+TreeNode_0x560bffd4e000 -> TreeNode_0x560bffd4e000_Right
+TreeNode_0x560bffd4e8d0 -> TreeNode_0x560bffd4d680
+TreeNode_0x560bffd4e8d0 -> TreeNode_0x560bffd4e000
+TreeNode_0x560bffd4e130 [label="TreeNode[0x560bffd4e130]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x560bffd4e260;\l   type        = 1;\l   data        = 'Данил';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x560bffd4e130_Left [label="Empty"]
+TreeNode_0x560bffd4e130 -> TreeNode_0x560bffd4e130_Left
+TreeNode_0x560bffd4e130_Right [label="Empty"]
+TreeNode_0x560bffd4e130 -> TreeNode_0x560bffd4e130_Right
+TreeNode_0x560bffd4e260 -> TreeNode_0x560bffd4e8d0
+TreeNode_0x560bffd4e260 -> TreeNode_0x560bffd4e130
+TreeNode_0x560bffd4e390 -> TreeNode_0x560bffd4ded0
+TreeNode_0x560bffd4e390 -> TreeNode_0x560bffd4e260
 }

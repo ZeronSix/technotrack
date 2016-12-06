@@ -43,6 +43,7 @@ void TreeNodeDtor(TreeNode *this_)
     this_->right = NULL;
     memset(this_->data, '\0', TREENODE_DATA_BUFFER_SIZE);
     this_->type = 0;
+    free(this_);
 }
 
 int TreeNodeVerify(const TreeNode *this_)
