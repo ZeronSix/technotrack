@@ -238,7 +238,7 @@ static void Define(TreeNode *root)
     puts("\n");
 }   
 
-void Compare(TreeNode *root)
+static void Compare(TreeNode *root)
 {
     assert(root);
     GET_NAME(name1);
