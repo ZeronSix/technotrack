@@ -1,26 +1,34 @@
 /*!
  * \file
- * Contains tree structure.
+ * TreeNode Data structure.
  */
-#ifndef AKINATOR_TREE_H
-#define AKINATOR_TREE_H
+#ifndef TREE_H
+#define TREE_H 
+#include "common.h"
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdbool.h>
 
 /*!
  * Canary
  */
 typedef int Canary;
-enum { TREENODE_CANARY = 0xFD };
+/*!
+ * Canary value for TreeNode.
+ */
+enum { CANARY_TREENODE = 0xFD };
 
 /*!
- * Tree node types.
+ * Data buffer size.
  */
-enum
+enum { TREENODE_DATA_BUFFER_SIZE = 256 };
+
+/*!
+ * Broken tree node type.
+ */
+enum 
 {
-    TREENODE_TYPE_NONE,
-    TREENODE_TYPE_QUESTION,
-    TREENODE_TYPE_ANSWER
+    TREENODE_TYPE_UNKNOWN = -1
 };
 
 /*!
@@ -28,36 +36,39 @@ enum
  */
 enum
 {
-    TREENODE_OK = 0,
-    TREENODE_ERR_MEMORY_ALLOC = 1,
-    TREENODE_ERR_BROKEN_PTR = 2,
-    TREENODE_ERR_BROKEN_DATA = 3,
-    TREENODE_ERR_BROKEN_CANARY = 4
+    TREE_OK                = 0,
+    TREE_ERR_BROKEN_PTR    = 1,
+    TREE_ERR_BROKEN_CANARY = 2,
+    TREE_ERR_WRONG_SYNTAX  = 3
 };
 
 /*!
  * Tree node.
  */
-struct TreeNode
+struct TreeNode 
 {
-    Canary left_canary;
+    Canary leftCanary;
     int type;
-    char *data;
+    char data[TREENODE_DATA_BUFFER_SIZE];
     struct TreeNode *parent;
     struct TreeNode *left;
     struct TreeNode *right;
-    Canary right_canary;
+    Canary rightCanary;
 };
 
 /*!
- * Tree node typedef.
+ * Tree node definition.
  */
 typedef struct TreeNode TreeNode;
 
 #ifndef NDEBUG
-#define ASSERT_TREENODE_OK(_ptr_) { \
-    int _err_code_ = TREENODE_ERR_BROKEN_PTR; \
-    if (!_ptr_ || (_err_code_ = treenode_verify(_ptr_)) != TREENODE_OK) \
+/*!
+ * Assert if node is verified correctly.
+ */
+#define ASSERT_TREENODE_OK(_ptr_) \
+{ \
+    int _err_code_ = TREE_ERR_BROKEN_PTR; \
+    if (!_ptr_ || (_err_code_ = TreeNodeVerify(_ptr_)) != TREE_OK) \
     { \
         fprintf(stderr, "[%s:%s:%d] ASSERT_TREENODE_OK failed (error code %d).\n", \
                 __FILE__, \
@@ -74,12 +85,13 @@ typedef struct TreeNode TreeNode;
 /*!
  * TreeNode dump macro.
  */
-#define TREENODE_DUMP(_ptr_, _out1_, _out2_) { \
+#define TREENODE_DUMP(_ptr_, _out1_, _out2_)  \
+{ \
     FILE *_fptr_ = fopen(_out1_, "w"); \
     if (_fptr_) \
     { \
         fprintf(_fptr_, "digraph G {\n"); \
-        treenode_dump(_ptr_, _fptr_); \
+        TreeNodeDump(_ptr_, _fptr_); \
         fprintf(_fptr_, "}\n"); \
         fclose(_fptr_); \
         system("dot -Tpng " _out1_ " -o " _out2_); \
@@ -88,41 +100,47 @@ typedef struct TreeNode TreeNode;
 
 /*!
  * Tree node constructor.
- * @param this_ pointer to treenode.
- * @param type  type.
- * @param data data.
- * @return error code.
  */
-int treenode_ctor(TreeNode **this_, TreeNode *parent, int type, char *data);
+TreeNode *TreeNodeCtor(int type, const char *data);
 /*!
  * Tree node destructor.
- * @param this_
  */
-void treenode_dtor(TreeNode *this_);
+void TreeNodeDtor(TreeNode *this_);
 /*!
  * Tree node verifier.
- * @param this_
- * @return error code.
  */
-int treenode_verify(TreeNode *this_);
+int TreeNodeVerify(const TreeNode *this_);
 /*!
- * Tree node dump method.
- * @param this_
- * @param dumpster
+ * Tree node dump function.
  */
-void treenode_dump(TreeNode *this_, FILE *dumpster);
+void TreeNodeDump(const TreeNode *this_, FILE *dumpster);
 /*!
  * Append the left child.
- * @param this_
- * @param child
  */
-void treenode_attach_left(TreeNode *this_, TreeNode *child);
+void TreeNodeAttachLeft(TreeNode *this_, TreeNode *child);
 /*!
  * Append the right child.
- * @param this_
- * @param child
  */
-void treenode_attach_right(TreeNode *this_, TreeNode *child);
+void TreeNodeAttachRight(TreeNode *this_, TreeNode *child);
+/*!
+ * Detach the node from its parent.
+ */
+TreeNode *TreeNodeDetach(TreeNode *this_);
+/*!
+ * Serialize the tree node.
+ */
+void TreeNodeSerialize(const TreeNode *this_, FILE *output);
+/*!
+ * Deserialize.
+ */
+int TreeNodeDeserialize(TreeNode **this_, const char *str);
+/*!
+ * Search.
+ */
+TreeNode *TreeNodeSearch(TreeNode *this_, int type, const char *str);
+/*!
+ * Is parent?
+ */
+bool TreeNodeIsParent(TreeNode *this_, TreeNode *child);
 
-
-#endif //AKINATOR_TREE_H
+#endif /* ifndef TREE_H */
