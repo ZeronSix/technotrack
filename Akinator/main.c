@@ -253,34 +253,33 @@ static void Compare(TreeNode *root)
     }
 
     TreeNode *node = obj1->parent;
+    TreeNode *prev = NULL;
     bool metCommon = false;
     bool isRightSide = false;
     while (node != NULL)
     {
-        if (TreeNodeIsParent(node, obj2)) 
+        if (metCommon)
         {
-            if (!metCommon)
-            {
-                printf("Различия: %s\n", node->data);
-                metCommon = true;
-                printf("Сходства:");
-                if (node->parent == NULL)
-                {
-                    printf(" нет");
-                    break;
-                }
-            }
+            if (node->right == prev)
+                isRightSide = true;
             else
+                isRightSide = false;
+            if (isRightSide)
+                printf(" не");
+            printf(" %s", node->data);
+        }
+        else if (TreeNodeIsParent(node, obj2)) 
+        {
+            printf("Различия: %s\n", node->data);
+            metCommon = true;
+            printf("Сходства:");
+            if (node->parent == NULL)
             {
-                if (isRightSide)
-                    printf(" не");
-                printf(" %s", node->data);
+                printf(" нет");
+                break;
             }
         }
-        if (node->parent && node->parent->right == node)
-            isRightSide = true;
-        else
-            isRightSide = false;
+        prev = node;
         node = node->parent;
     }
 

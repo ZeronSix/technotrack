@@ -186,7 +186,7 @@ void TreeNodeSerialize(const TreeNode *this_, FILE *output)
 
 #define SKIP_SPACES(_s_) { while(isspace(**_s_)) (*_s_)++; }
 #define SET_NULL_AND_RET(_ptr_, _res_) { *_ptr_ = NULL; return _res_; }
-int _Deserialize(TreeNode **this_, const char **s)
+static int _Deserialize(TreeNode **this_, const char **s)
 {
     assert(s);
     assert(*s);
@@ -248,6 +248,7 @@ int _Deserialize(TreeNode **this_, const char **s)
     TreeNode *right = NULL;
     if ((result = _Deserialize(&right, s)) != TREE_OK)
     {
+        TreeNodeDtor(right);
         TreeNodeDtor(left);
         SET_NULL_AND_RET(this_, TREE_ERR_WRONG_SYNTAX);
     }
