@@ -107,6 +107,7 @@ void BeginTeX(FILE *file)
     assert(file);
     fprintf(file, "\\documentclass{article}\n");
     fprintf(file, "\\usepackage{amsmath}\n");
+    fprintf(file, "\\usepackage{amssymb}\n");
     fprintf(file, "\\usepackage[utf8]{inputenc}\n");
     fprintf(file, "\\usepackage[russian]{babel}\n");
     //fprintf(article, "\\usepackage[ngerman]{babel}");

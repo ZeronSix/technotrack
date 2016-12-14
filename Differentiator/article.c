@@ -93,7 +93,7 @@ static const char *TRANSITIONS[] =
 /*!
  * Outro format.
  */
-static const char OUT_FORMAT[] = "Такие дела.\n";
+static const char OUT_FORMAT[] = "Такие дела. $\\blacksquare$\n";
 
 void PrintIntro(FILE *file)
 {
