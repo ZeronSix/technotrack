@@ -1,0 +1,191 @@
+digraph G {
+DTreeNode_0x60400000d190 [label="DTreeNode[0x60400000d190]\l{\l   leftCanary  = 0xFD;\l   parent      = (nil);\l   type        = +;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d1d0 [label="DTreeNode[0x60400000d1d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d190;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d6d0 [label="DTreeNode[0x60400000d6d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d1d0;\l   type        = +;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d710 [label="DTreeNode[0x60400000d710]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d6d0;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000da50 [label="DTreeNode[0x60400000da50]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d710;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000da90 [label="DTreeNode[0x60400000da90]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000da50;\l   type        = c;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000db50 [label="DTreeNode[0x60400000db50]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000da90;\l   type        = ^;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000db10 [label="DTreeNode[0x60400000db10]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000db50;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000db10_Left [label="Empty"]
+DTreeNode_0x60400000db10 -> DTreeNode_0x60400000db10_Left
+DTreeNode_0x60400000db10_Right [label="Empty"]
+DTreeNode_0x60400000db10 -> DTreeNode_0x60400000db10_Right
+DTreeNode_0x60400000dad0 [label="DTreeNode[0x60400000dad0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000db50;\l   type        = C;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dad0_Left [label="Empty"]
+DTreeNode_0x60400000dad0 -> DTreeNode_0x60400000dad0_Left
+DTreeNode_0x60400000dad0_Right [label="Empty"]
+DTreeNode_0x60400000dad0 -> DTreeNode_0x60400000dad0_Right
+DTreeNode_0x60400000db50 -> DTreeNode_0x60400000db10
+DTreeNode_0x60400000db50 -> DTreeNode_0x60400000dad0
+DTreeNode_0x60400000da90_Left [label="Empty"]
+DTreeNode_0x60400000da90 -> DTreeNode_0x60400000da90_Left
+DTreeNode_0x60400000da90 -> DTreeNode_0x60400000db50
+DTreeNode_0x60400000db90 [label="DTreeNode[0x60400000db90]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000da50;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dbd0 [label="DTreeNode[0x60400000dbd0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000db90;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dd10 [label="DTreeNode[0x60400000dd10]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000dbd0;\l   type        = C;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dd10_Left [label="Empty"]
+DTreeNode_0x60400000dd10 -> DTreeNode_0x60400000dd10_Left
+DTreeNode_0x60400000dd10_Right [label="Empty"]
+DTreeNode_0x60400000dd10 -> DTreeNode_0x60400000dd10_Right
+DTreeNode_0x60400000dc10 [label="DTreeNode[0x60400000dc10]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000dbd0;\l   type        = ^;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dc50 [label="DTreeNode[0x60400000dc50]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000dc10;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dc50_Left [label="Empty"]
+DTreeNode_0x60400000dc50 -> DTreeNode_0x60400000dc50_Left
+DTreeNode_0x60400000dc50_Right [label="Empty"]
+DTreeNode_0x60400000dc50 -> DTreeNode_0x60400000dc50_Right
+DTreeNode_0x60400000dcd0 [label="DTreeNode[0x60400000dcd0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000dc10;\l   type        = C;\l   data        = '1';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dcd0_Left [label="Empty"]
+DTreeNode_0x60400000dcd0 -> DTreeNode_0x60400000dcd0_Left
+DTreeNode_0x60400000dcd0_Right [label="Empty"]
+DTreeNode_0x60400000dcd0 -> DTreeNode_0x60400000dcd0_Right
+DTreeNode_0x60400000dc10 -> DTreeNode_0x60400000dc50
+DTreeNode_0x60400000dc10 -> DTreeNode_0x60400000dcd0
+DTreeNode_0x60400000dbd0 -> DTreeNode_0x60400000dd10
+DTreeNode_0x60400000dbd0 -> DTreeNode_0x60400000dc10
+DTreeNode_0x60400000dc90 [label="DTreeNode[0x60400000dc90]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000db90;\l   type        = C;\l   data        = '1';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dc90_Left [label="Empty"]
+DTreeNode_0x60400000dc90 -> DTreeNode_0x60400000dc90_Left
+DTreeNode_0x60400000dc90_Right [label="Empty"]
+DTreeNode_0x60400000dc90 -> DTreeNode_0x60400000dc90_Right
+DTreeNode_0x60400000db90 -> DTreeNode_0x60400000dbd0
+DTreeNode_0x60400000db90 -> DTreeNode_0x60400000dc90
+DTreeNode_0x60400000da50 -> DTreeNode_0x60400000da90
+DTreeNode_0x60400000da50 -> DTreeNode_0x60400000db90
+DTreeNode_0x60400000d7d0 [label="DTreeNode[0x60400000d7d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d710;\l   type        = L;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d790 [label="DTreeNode[0x60400000d790]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d7d0;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d790_Left [label="Empty"]
+DTreeNode_0x60400000d790 -> DTreeNode_0x60400000d790_Left
+DTreeNode_0x60400000d790_Right [label="Empty"]
+DTreeNode_0x60400000d790 -> DTreeNode_0x60400000d790_Right
+DTreeNode_0x60400000d7d0_Left [label="Empty"]
+DTreeNode_0x60400000d7d0 -> DTreeNode_0x60400000d7d0_Left
+DTreeNode_0x60400000d7d0 -> DTreeNode_0x60400000d790
+DTreeNode_0x60400000d710 -> DTreeNode_0x60400000da50
+DTreeNode_0x60400000d710 -> DTreeNode_0x60400000d7d0
+DTreeNode_0x60400000d750 [label="DTreeNode[0x60400000d750]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d6d0;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d8d0 [label="DTreeNode[0x60400000d8d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d750;\l   type        = S;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d890 [label="DTreeNode[0x60400000d890]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d8d0;\l   type        = ^;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d850 [label="DTreeNode[0x60400000d850]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d890;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d850_Left [label="Empty"]
+DTreeNode_0x60400000d850 -> DTreeNode_0x60400000d850_Left
+DTreeNode_0x60400000d850_Right [label="Empty"]
+DTreeNode_0x60400000d850 -> DTreeNode_0x60400000d850_Right
+DTreeNode_0x60400000d810 [label="DTreeNode[0x60400000d810]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d890;\l   type        = C;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d810_Left [label="Empty"]
+DTreeNode_0x60400000d810 -> DTreeNode_0x60400000d810_Left
+DTreeNode_0x60400000d810_Right [label="Empty"]
+DTreeNode_0x60400000d810 -> DTreeNode_0x60400000d810_Right
+DTreeNode_0x60400000d890 -> DTreeNode_0x60400000d850
+DTreeNode_0x60400000d890 -> DTreeNode_0x60400000d810
+DTreeNode_0x60400000d8d0_Left [label="Empty"]
+DTreeNode_0x60400000d8d0 -> DTreeNode_0x60400000d8d0_Left
+DTreeNode_0x60400000d8d0 -> DTreeNode_0x60400000d890
+DTreeNode_0x60400000d910 [label="DTreeNode[0x60400000d910]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d750;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d950 [label="DTreeNode[0x60400000d950]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d910;\l   type        = /;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d990 [label="DTreeNode[0x60400000d990]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d950;\l   type        = C;\l   data        = '1';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d990_Left [label="Empty"]
+DTreeNode_0x60400000d990 -> DTreeNode_0x60400000d990_Left
+DTreeNode_0x60400000d990_Right [label="Empty"]
+DTreeNode_0x60400000d990 -> DTreeNode_0x60400000d990_Right
+DTreeNode_0x60400000d9d0 [label="DTreeNode[0x60400000d9d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d950;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d9d0_Left [label="Empty"]
+DTreeNode_0x60400000d9d0 -> DTreeNode_0x60400000d9d0_Left
+DTreeNode_0x60400000d9d0_Right [label="Empty"]
+DTreeNode_0x60400000d9d0 -> DTreeNode_0x60400000d9d0_Right
+DTreeNode_0x60400000d950 -> DTreeNode_0x60400000d990
+DTreeNode_0x60400000d950 -> DTreeNode_0x60400000d9d0
+DTreeNode_0x60400000da10 [label="DTreeNode[0x60400000da10]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d910;\l   type        = C;\l   data        = '1';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000da10_Left [label="Empty"]
+DTreeNode_0x60400000da10 -> DTreeNode_0x60400000da10_Left
+DTreeNode_0x60400000da10_Right [label="Empty"]
+DTreeNode_0x60400000da10 -> DTreeNode_0x60400000da10_Right
+DTreeNode_0x60400000d910 -> DTreeNode_0x60400000d950
+DTreeNode_0x60400000d910 -> DTreeNode_0x60400000da10
+DTreeNode_0x60400000d750 -> DTreeNode_0x60400000d8d0
+DTreeNode_0x60400000d750 -> DTreeNode_0x60400000d910
+DTreeNode_0x60400000d6d0 -> DTreeNode_0x60400000d710
+DTreeNode_0x60400000d6d0 -> DTreeNode_0x60400000d750
+DTreeNode_0x60400000d2d0 [label="DTreeNode[0x60400000d2d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d1d0;\l   type        = ^;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d290 [label="DTreeNode[0x60400000d290]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d2d0;\l   type        = C;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d290_Left [label="Empty"]
+DTreeNode_0x60400000d290 -> DTreeNode_0x60400000d290_Left
+DTreeNode_0x60400000d290_Right [label="Empty"]
+DTreeNode_0x60400000d290 -> DTreeNode_0x60400000d290_Right
+DTreeNode_0x60400000d250 [label="DTreeNode[0x60400000d250]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d2d0;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d250_Left [label="Empty"]
+DTreeNode_0x60400000d250 -> DTreeNode_0x60400000d250_Left
+DTreeNode_0x60400000d250_Right [label="Empty"]
+DTreeNode_0x60400000d250 -> DTreeNode_0x60400000d250_Right
+DTreeNode_0x60400000d2d0 -> DTreeNode_0x60400000d290
+DTreeNode_0x60400000d2d0 -> DTreeNode_0x60400000d250
+DTreeNode_0x60400000d1d0 -> DTreeNode_0x60400000d6d0
+DTreeNode_0x60400000d1d0 -> DTreeNode_0x60400000d2d0
+DTreeNode_0x60400000d210 [label="DTreeNode[0x60400000d210]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d190;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d490 [label="DTreeNode[0x60400000d490]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d210;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d450 [label="DTreeNode[0x60400000d450]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d490;\l   type        = S;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d410 [label="DTreeNode[0x60400000d410]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d450;\l   type        = ^;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d3d0 [label="DTreeNode[0x60400000d3d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d410;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d3d0_Left [label="Empty"]
+DTreeNode_0x60400000d3d0 -> DTreeNode_0x60400000d3d0_Left
+DTreeNode_0x60400000d3d0_Right [label="Empty"]
+DTreeNode_0x60400000d3d0 -> DTreeNode_0x60400000d3d0_Right
+DTreeNode_0x60400000d390 [label="DTreeNode[0x60400000d390]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d410;\l   type        = C;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d390_Left [label="Empty"]
+DTreeNode_0x60400000d390 -> DTreeNode_0x60400000d390_Left
+DTreeNode_0x60400000d390_Right [label="Empty"]
+DTreeNode_0x60400000d390 -> DTreeNode_0x60400000d390_Right
+DTreeNode_0x60400000d410 -> DTreeNode_0x60400000d3d0
+DTreeNode_0x60400000d410 -> DTreeNode_0x60400000d390
+DTreeNode_0x60400000d450_Left [label="Empty"]
+DTreeNode_0x60400000d450 -> DTreeNode_0x60400000d450_Left
+DTreeNode_0x60400000d450 -> DTreeNode_0x60400000d410
+DTreeNode_0x60400000d350 [label="DTreeNode[0x60400000d350]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d490;\l   type        = L;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d310 [label="DTreeNode[0x60400000d310]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d350;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d310_Left [label="Empty"]
+DTreeNode_0x60400000d310 -> DTreeNode_0x60400000d310_Left
+DTreeNode_0x60400000d310_Right [label="Empty"]
+DTreeNode_0x60400000d310 -> DTreeNode_0x60400000d310_Right
+DTreeNode_0x60400000d350_Left [label="Empty"]
+DTreeNode_0x60400000d350 -> DTreeNode_0x60400000d350_Left
+DTreeNode_0x60400000d350 -> DTreeNode_0x60400000d310
+DTreeNode_0x60400000d490 -> DTreeNode_0x60400000d450
+DTreeNode_0x60400000d490 -> DTreeNode_0x60400000d350
+DTreeNode_0x60400000d4d0 [label="DTreeNode[0x60400000d4d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d210;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d510 [label="DTreeNode[0x60400000d510]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d4d0;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d5d0 [label="DTreeNode[0x60400000d5d0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d510;\l   type        = ^;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d590 [label="DTreeNode[0x60400000d590]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d5d0;\l   type        = C;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d590_Left [label="Empty"]
+DTreeNode_0x60400000d590 -> DTreeNode_0x60400000d590_Left
+DTreeNode_0x60400000d590_Right [label="Empty"]
+DTreeNode_0x60400000d590 -> DTreeNode_0x60400000d590_Right
+DTreeNode_0x60400000d550 [label="DTreeNode[0x60400000d550]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d5d0;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d550_Left [label="Empty"]
+DTreeNode_0x60400000d550 -> DTreeNode_0x60400000d550_Left
+DTreeNode_0x60400000d550_Right [label="Empty"]
+DTreeNode_0x60400000d550 -> DTreeNode_0x60400000d550_Right
+DTreeNode_0x60400000d5d0 -> DTreeNode_0x60400000d590
+DTreeNode_0x60400000d5d0 -> DTreeNode_0x60400000d550
+DTreeNode_0x60400000d610 [label="DTreeNode[0x60400000d610]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d510;\l   type        = L;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d650 [label="DTreeNode[0x60400000d650]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d610;\l   type        = C;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d650_Left [label="Empty"]
+DTreeNode_0x60400000d650 -> DTreeNode_0x60400000d650_Left
+DTreeNode_0x60400000d650_Right [label="Empty"]
+DTreeNode_0x60400000d650 -> DTreeNode_0x60400000d650_Right
+DTreeNode_0x60400000d610_Left [label="Empty"]
+DTreeNode_0x60400000d610 -> DTreeNode_0x60400000d610_Left
+DTreeNode_0x60400000d610 -> DTreeNode_0x60400000d650
+DTreeNode_0x60400000d510 -> DTreeNode_0x60400000d5d0
+DTreeNode_0x60400000d510 -> DTreeNode_0x60400000d610
+DTreeNode_0x60400000d690 [label="DTreeNode[0x60400000d690]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000d4d0;\l   type        = C;\l   data        = '1';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000d690_Left [label="Empty"]
+DTreeNode_0x60400000d690 -> DTreeNode_0x60400000d690_Left
+DTreeNode_0x60400000d690_Right [label="Empty"]
+DTreeNode_0x60400000d690 -> DTreeNode_0x60400000d690_Right
+DTreeNode_0x60400000d4d0 -> DTreeNode_0x60400000d510
+DTreeNode_0x60400000d4d0 -> DTreeNode_0x60400000d690
+DTreeNode_0x60400000d210 -> DTreeNode_0x60400000d490
+DTreeNode_0x60400000d210 -> DTreeNode_0x60400000d4d0
+DTreeNode_0x60400000d190 -> DTreeNode_0x60400000d1d0
+DTreeNode_0x60400000d190 -> DTreeNode_0x60400000d210
+}

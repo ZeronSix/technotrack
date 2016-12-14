@@ -1,0 +1,23 @@
+digraph G {
+DTreeNode_0x60400000de50 [label="DTreeNode[0x60400000de50]\l{\l   leftCanary  = 0xFD;\l   parent      = (nil);\l   type        = 1;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000de10 [label="DTreeNode[0x60400000de10]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000de50;\l   type        = 2;\l   data        = '1';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000ddd0 [label="DTreeNode[0x60400000ddd0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000de10;\l   type        = 3;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dd90 [label="DTreeNode[0x60400000dd90]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000ddd0;\l   type        = 4;\l   data        = '3';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dd90_Left [label="Empty"]
+DTreeNode_0x60400000dd90 -> DTreeNode_0x60400000dd90_Left
+DTreeNode_0x60400000dd90_Right [label="Empty"]
+DTreeNode_0x60400000dd90 -> DTreeNode_0x60400000dd90_Right
+DTreeNode_0x60400000dd50 [label="DTreeNode[0x60400000dd50]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000ddd0;\l   type        = 5;\l   data        = '4';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dd50_Left [label="Empty"]
+DTreeNode_0x60400000dd50 -> DTreeNode_0x60400000dd50_Left
+DTreeNode_0x60400000dd50_Right [label="Empty"]
+DTreeNode_0x60400000dd50 -> DTreeNode_0x60400000dd50_Right
+DTreeNode_0x60400000ddd0 -> DTreeNode_0x60400000dd90
+DTreeNode_0x60400000ddd0 -> DTreeNode_0x60400000dd50
+DTreeNode_0x60400000de10_Left [label="Empty"]
+DTreeNode_0x60400000de10 -> DTreeNode_0x60400000de10_Left
+DTreeNode_0x60400000de10 -> DTreeNode_0x60400000ddd0
+DTreeNode_0x60400000de50 -> DTreeNode_0x60400000de10
+DTreeNode_0x60400000de50_Right [label="Empty"]
+DTreeNode_0x60400000de50 -> DTreeNode_0x60400000de50_Right
+}
