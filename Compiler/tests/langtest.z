@@ -1,0 +1,28 @@
+fn main()
+var
+    x, i, max_i, sum, augend; 
+{
+    x = input();
+    max_i = input();
+    
+    augend = x;
+    
+    // if (x == 0)
+    // {
+    //    ret -1;
+    // }
+    
+    i = 0;
+    while (i < max_i)
+    {
+        sum = sum + augend;
+        
+        augend = augend/x;
+
+        i = i + 1;
+    }
+    
+    print(sum);
+
+    ret 0;
+}

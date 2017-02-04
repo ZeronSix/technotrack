@@ -1,9 +1,10 @@
 #include <stdio.h>
+#include <math.h>
 #include <assert.h>
 #include <ctype.h>
 #include <stdbool.h>
 #include <string.h>
-h
+
 enum 
 {
     ERR_OK = 0,
@@ -27,6 +28,10 @@ int GetE(void);
  * Evals a multiply expression.
  */
 int GetT(void);
+/*!
+ * Evals a power.
+ */
+int GetD(void);
 /*!
  * Evals an expr with parenthesis.
  */
@@ -117,7 +122,7 @@ int GetE(void)
 int GetT(void)
 {
     SkipSpaces(); 
-    int res = GetP();
+    int res = GetD();
     SkipSpaces();
 
     while (*s == '*' || *s == '/')
@@ -127,11 +132,31 @@ int GetT(void)
 
         SkipSpaces();
 
-        int res2 = GetP();
+        int res2 = GetD();
         if (op == '*')
             res *= res2;
         else if (op == '/')
             res /= res2;
+
+        SkipSpaces();
+    }
+
+    return res;
+}
+
+int GetD(void)
+{
+    SkipSpaces();
+    int res = GetP();
+    SkipSpaces();
+
+    while (*s == '^')
+    {
+        s++;
+        SkipSpaces();
+
+        int res2 = GetP();
+        res = (int)pow(res, res2);
 
         SkipSpaces();
     }

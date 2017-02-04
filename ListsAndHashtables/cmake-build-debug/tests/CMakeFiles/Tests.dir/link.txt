@@ -1,0 +1,1 @@
+/usr/bin/cc   -Wall -std=c99 -g   CMakeFiles/Tests.dir/tests.c.o CMakeFiles/Tests.dir/__/list.c.o CMakeFiles/Tests.dir/__/hashmap.c.o  -o ../../Tests 

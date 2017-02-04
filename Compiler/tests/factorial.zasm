@@ -1,0 +1,46 @@
+call main:
+jmp exit:
+
+input:
+stackframe 0
+in
+ret
+
+print:
+stackframe 1
+get 0
+out
+push 0
+ret
+
+factorial:
+stackframe 1
+get 0
+push 0
+eq
+jmpc if_0: 
+jmp else_0:
+if_0:
+push 1
+ret
+else_0:
+get 0
+get 0
+push 1
+sub
+call factorial:
+mul
+ret
+push 0
+ret
+main:
+stackframe 0
+push 0
+call input:
+set 0
+get 0
+call factorial:
+call print:
+push 0
+ret
+exit:

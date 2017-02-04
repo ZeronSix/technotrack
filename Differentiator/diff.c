@@ -14,6 +14,7 @@ DTreeNode *Diff(DTreeNode *f) {
     DTreeNode *cl = NULL, *cr = NULL;
     DTreeNode *mul = NULL, *index = NULL;
 
+
 #define COPY(n) DTreeNodeCopy(n)
     switch (f->type)
     {

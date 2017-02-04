@@ -77,6 +77,7 @@ static void TestTreeNodeDump(void)
     TreeNodeAttachRight(child2, child4);
 
     TREENODE_DUMP(root, "./Tests/TestDump.gv", "./Tests/TestDump.png");
+    TreeNodeDtor(root);
 }
 
 static void TestTreeNodeSerialize(void)
@@ -98,7 +99,7 @@ static void TestTreeNodeSerialize(void)
     fclose(f);
 }
 
-bool TestTreeNodeDeserialize(void)
+static bool TestTreeNodeDeserialize(void)
 {
     Text *txt = TextReadFromFile("./Tests/TestSerialize.txt");
     assert(txt);

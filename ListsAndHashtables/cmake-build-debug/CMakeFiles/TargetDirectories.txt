@@ -1,0 +1,6 @@
+/home/zeronsix/projects/technotrack/ListsAndHashtables/cmake-build-debug/CMakeFiles/edit_cache.dir
+/home/zeronsix/projects/technotrack/ListsAndHashtables/cmake-build-debug/CMakeFiles/rebuild_cache.dir
+/home/zeronsix/projects/technotrack/ListsAndHashtables/cmake-build-debug/CMakeFiles/ListsAndHashtables.dir
+/home/zeronsix/projects/technotrack/ListsAndHashtables/cmake-build-debug/tests/CMakeFiles/edit_cache.dir
+/home/zeronsix/projects/technotrack/ListsAndHashtables/cmake-build-debug/tests/CMakeFiles/rebuild_cache.dir
+/home/zeronsix/projects/technotrack/ListsAndHashtables/cmake-build-debug/tests/CMakeFiles/Tests.dir

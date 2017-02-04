@@ -1,7 +1,47 @@
 digraph G {
-DTreeNode_0x60400000dfd0 [label="DTreeNode[0x60400000dfd0]\l{\l   leftCanary  = 0xFD;\l   parent      = (nil);\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dd50 [label="DTreeNode[0x60400000dd50]\l{\l   leftCanary  = 0xFD;\l   parent      = (nil);\l   type        = +;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000df50 [label="DTreeNode[0x60400000df50]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000dd50;\l   type        = ^;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000dfd0 [label="DTreeNode[0x60400000dfd0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000df50;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
 DTreeNode_0x60400000dfd0_Left [label="Empty"]
 DTreeNode_0x60400000dfd0 -> DTreeNode_0x60400000dfd0_Left
 DTreeNode_0x60400000dfd0_Right [label="Empty"]
 DTreeNode_0x60400000dfd0 -> DTreeNode_0x60400000dfd0_Right
+DTreeNode_0x60400000df90 [label="DTreeNode[0x60400000df90]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000df50;\l   type        = C;\l   data        = '2';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000df90_Left [label="Empty"]
+DTreeNode_0x60400000df90 -> DTreeNode_0x60400000df90_Left
+DTreeNode_0x60400000df90_Right [label="Empty"]
+DTreeNode_0x60400000df90 -> DTreeNode_0x60400000df90_Right
+DTreeNode_0x60400000df50 -> DTreeNode_0x60400000dfd0
+DTreeNode_0x60400000df50 -> DTreeNode_0x60400000df90
+DTreeNode_0x60400000dd90 [label="DTreeNode[0x60400000dd90]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000dd50;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000de90 [label="DTreeNode[0x60400000de90]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000dd90;\l   type        = *;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000df10 [label="DTreeNode[0x60400000df10]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000de90;\l   type        = C;\l   data        = '5';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000df10_Left [label="Empty"]
+DTreeNode_0x60400000df10 -> DTreeNode_0x60400000df10_Left
+DTreeNode_0x60400000df10_Right [label="Empty"]
+DTreeNode_0x60400000df10 -> DTreeNode_0x60400000df10_Right
+DTreeNode_0x60400000ded0 [label="DTreeNode[0x60400000ded0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000de90;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000ded0_Left [label="Empty"]
+DTreeNode_0x60400000ded0 -> DTreeNode_0x60400000ded0_Left
+DTreeNode_0x60400000ded0_Right [label="Empty"]
+DTreeNode_0x60400000ded0 -> DTreeNode_0x60400000ded0_Right
+DTreeNode_0x60400000de90 -> DTreeNode_0x60400000df10
+DTreeNode_0x60400000de90 -> DTreeNode_0x60400000ded0
+DTreeNode_0x60400000ddd0 [label="DTreeNode[0x60400000ddd0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000dd90;\l   type        = L;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000de10 [label="DTreeNode[0x60400000de10]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000ddd0;\l   type        = S;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000de50 [label="DTreeNode[0x60400000de50]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x60400000de10;\l   type        = x;\l   data        = '0';\l   rightCanary = 0xFD;\l}\l"]
+DTreeNode_0x60400000de50_Left [label="Empty"]
+DTreeNode_0x60400000de50 -> DTreeNode_0x60400000de50_Left
+DTreeNode_0x60400000de50_Right [label="Empty"]
+DTreeNode_0x60400000de50 -> DTreeNode_0x60400000de50_Right
+DTreeNode_0x60400000de10_Left [label="Empty"]
+DTreeNode_0x60400000de10 -> DTreeNode_0x60400000de10_Left
+DTreeNode_0x60400000de10 -> DTreeNode_0x60400000de50
+DTreeNode_0x60400000ddd0_Left [label="Empty"]
+DTreeNode_0x60400000ddd0 -> DTreeNode_0x60400000ddd0_Left
+DTreeNode_0x60400000ddd0 -> DTreeNode_0x60400000de10
+DTreeNode_0x60400000dd90 -> DTreeNode_0x60400000de90
+DTreeNode_0x60400000dd90 -> DTreeNode_0x60400000ddd0
+DTreeNode_0x60400000dd50 -> DTreeNode_0x60400000df50
+DTreeNode_0x60400000dd50 -> DTreeNode_0x60400000dd90
 }

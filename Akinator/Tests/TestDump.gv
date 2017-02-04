@@ -1,23 +1,23 @@
 digraph G {
-TreeNode_0x55766aacab40 [label="TreeNode[0x55766aacab40]\l{\l   leftCanary  = 0xFD;\l   parent      = (nil);\l   type        = 1;\l   data        = 'root';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x55766aacac70 [label="TreeNode[0x55766aacac70]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x55766aacab40;\l   type        = 2;\l   data        = 'child1';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x55766aacada0 [label="TreeNode[0x55766aacada0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x55766aacac70;\l   type        = 3;\l   data        = 'child3';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x55766aacaed0 [label="TreeNode[0x55766aacaed0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x55766aacada0;\l   type        = 4;\l   data        = 'child4';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x55766aacaed0_Left [label="Empty"]
-TreeNode_0x55766aacaed0 -> TreeNode_0x55766aacaed0_Left
-TreeNode_0x55766aacaed0_Right [label="Empty"]
-TreeNode_0x55766aacaed0 -> TreeNode_0x55766aacaed0_Right
-TreeNode_0x55766aacb000 [label="TreeNode[0x55766aacb000]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x55766aacada0;\l   type        = 5;\l   data        = 'child5';\l   rightCanary = 0xfd;\l}\l"]
-TreeNode_0x55766aacb000_Left [label="Empty"]
-TreeNode_0x55766aacb000 -> TreeNode_0x55766aacb000_Left
-TreeNode_0x55766aacb000_Right [label="Empty"]
-TreeNode_0x55766aacb000 -> TreeNode_0x55766aacb000_Right
-TreeNode_0x55766aacada0 -> TreeNode_0x55766aacaed0
-TreeNode_0x55766aacada0 -> TreeNode_0x55766aacb000
-TreeNode_0x55766aacac70_Left [label="Empty"]
-TreeNode_0x55766aacac70 -> TreeNode_0x55766aacac70_Left
-TreeNode_0x55766aacac70 -> TreeNode_0x55766aacada0
-TreeNode_0x55766aacab40 -> TreeNode_0x55766aacac70
-TreeNode_0x55766aacab40_Right [label="Empty"]
-TreeNode_0x55766aacab40 -> TreeNode_0x55766aacab40_Right
+TreeNode_0x61200000b5c0 [label="TreeNode[0x61200000b5c0]\l{\l   leftCanary  = 0xFD;\l   parent      = (nil);\l   type        = 1;\l   data        = 'root';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x61200000b440 [label="TreeNode[0x61200000b440]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x61200000b5c0;\l   type        = 2;\l   data        = 'child1';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x61200000b2c0 [label="TreeNode[0x61200000b2c0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x61200000b440;\l   type        = 3;\l   data        = 'child3';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x61200000b140 [label="TreeNode[0x61200000b140]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x61200000b2c0;\l   type        = 4;\l   data        = 'child4';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x61200000b140_Left [label="Empty"]
+TreeNode_0x61200000b140 -> TreeNode_0x61200000b140_Left
+TreeNode_0x61200000b140_Right [label="Empty"]
+TreeNode_0x61200000b140 -> TreeNode_0x61200000b140_Right
+TreeNode_0x61200000afc0 [label="TreeNode[0x61200000afc0]\l{\l   leftCanary  = 0xFD;\l   parent      = 0x61200000b2c0;\l   type        = 5;\l   data        = 'child5';\l   rightCanary = 0xfd;\l}\l"]
+TreeNode_0x61200000afc0_Left [label="Empty"]
+TreeNode_0x61200000afc0 -> TreeNode_0x61200000afc0_Left
+TreeNode_0x61200000afc0_Right [label="Empty"]
+TreeNode_0x61200000afc0 -> TreeNode_0x61200000afc0_Right
+TreeNode_0x61200000b2c0 -> TreeNode_0x61200000b140
+TreeNode_0x61200000b2c0 -> TreeNode_0x61200000afc0
+TreeNode_0x61200000b440_Left [label="Empty"]
+TreeNode_0x61200000b440 -> TreeNode_0x61200000b440_Left
+TreeNode_0x61200000b440 -> TreeNode_0x61200000b2c0
+TreeNode_0x61200000b5c0 -> TreeNode_0x61200000b440
+TreeNode_0x61200000b5c0_Right [label="Empty"]
+TreeNode_0x61200000b5c0 -> TreeNode_0x61200000b5c0_Right
 }

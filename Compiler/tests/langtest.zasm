@@ -1,0 +1,58 @@
+call main:
+jmp exit:
+
+input:
+stackframe 0
+in
+ret
+
+print:
+stackframe 1
+get 0
+out
+push 0
+ret
+
+main:
+stackframe 0
+push 0
+push 0
+push 0
+push 0
+push 0
+call input:
+set 0
+call input:
+set 2
+get 0
+set 4
+push 0
+set 1
+while_0:
+get 1
+get 2
+blw
+jmpc while_0_body: 
+jmp while_0_exit:
+while_0_body:
+get 3
+get 4
+add
+set 3
+get 4
+get 0
+div
+set 4
+get 1
+push 1
+add
+set 1
+jmp while_0:
+while_0_exit:
+get 3
+call print:
+push 0
+ret
+push 0
+ret
+exit:

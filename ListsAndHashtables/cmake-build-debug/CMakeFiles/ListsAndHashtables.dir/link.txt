@@ -1,0 +1,1 @@
+/usr/bin/cc   -Wall -std=c99 -g   CMakeFiles/ListsAndHashtables.dir/main.c.o CMakeFiles/ListsAndHashtables.dir/hashmap.c.o CMakeFiles/ListsAndHashtables.dir/list.c.o  -o ../ListsAndHashtables 

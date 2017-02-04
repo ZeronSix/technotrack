@@ -1,0 +1,569 @@
+#include "rdp.h"
+#include "hashmap.h"
+#include <assert.h>
+
+/*!
+ * Set error code if it hasn't already been set.
+ */
+#define SET_ERR(_code_) { if (rdp_error != ZCC_OK) rdp_error = _code_; }
+
+/*!
+ * Error code.
+ */
+static int rdp_error = ZCC_OK;
+static Token *error_broken = NULL;
+
+/*!
+ * Get const.
+ */
+static TreeNode *get_n(Token ***t);
+/*!
+ * Get ID.
+ */
+static TreeNode *get_id(Token ***t);
+/*!
+ * Get operator.
+ */
+static TreeNode *get_op(Token ***t);
+/*!
+ * Get assignment.
+ */
+static TreeNode *get_a(Token ***t);
+/*!
+ * Get E.
+ */
+static TreeNode *get_e(Token ***t);
+/*!
+ * Get conjunction.
+ */
+static TreeNode *get_c(Token ***t);
+/*!
+ * Get disjunction.
+ */
+static TreeNode *get_d(Token ***t);
+/*!
+ * Get equal.
+ */
+static TreeNode *get_eq(Token ***t);
+/*!
+ * Get comparison.
+ */
+static TreeNode *get_com(Token ***t);
+/*!
+ * Get T.
+ */
+static TreeNode *get_t(Token ***t);
+/*!
+ * Get P.
+ */
+static TreeNode *get_p(Token ***t);
+/*!
+ * Get semicolon (operator split).
+ */
+static TreeNode *get_sp(Token ***t);
+/*!
+ * Get function call.
+ */
+static TreeNode *get_fn_call(Token ***t);
+/*!
+ * Get function
+ */
+static TreeNode *get_fn(Token ***t, FuncMap *funcmap);
+/*!
+ * Get function
+ */
+static TreeNode *get_prg(Token ***t, FuncMap *funcmap);
+/*!
+ * Get operand.
+ */
+static TreeNode *get_x(Token ***t);
+
+#define ASSERT_T() { assert(t); assert(*t); assert(**t); }
+#define TOK (**t)
+#define SHIFT_TOK() (*t)++
+
+#define GET_BINARY_OPERATOR(_name_, _next_, _cond_) \
+TreeNode *_name_(Token ***t) \
+{  \
+    ASSERT_T(); \
+    \
+    TreeNode *result = _next_(t); \
+    if (!result) \
+        return NULL; \
+    \
+    while (_cond_) \
+    { \
+        int op = TOK->type; \
+        SHIFT_TOK(); \
+        \
+        TreeNode *result2 = _next_(t); \
+        if (!result2) \
+        { \
+            treenode_del(result); \
+            return NULL; \
+        } \
+        \
+        TreeNode *r = treenode_new(op, NULL); \
+        if (!r) \
+        { \
+            treenode_del(result); \
+            treenode_del(result2); \
+            return NULL; \
+        } \
+        treenode_attachl(r, result); \
+        treenode_attachr(r, result2); \
+        result = r; \
+    } \
+    \
+    return result; \
+}
+
+GET_BINARY_OPERATOR(get_d, get_c, TOK->type == ZCC_TOKEN_OR)
+GET_BINARY_OPERATOR(get_c, get_eq, TOK->type == ZCC_TOKEN_AND)
+GET_BINARY_OPERATOR(get_eq, get_com, TOK->type == ZCC_TOKEN_EQ)
+GET_BINARY_OPERATOR(get_com, get_e, TOK->type == ZCC_TOKEN_ABOVE_OR_EQ || 
+                                    TOK->type == ZCC_TOKEN_BELOW_OR_EQ ||
+                                    TOK->type == ZCC_TOKEN_ABOVE ||
+                                    TOK->type == ZCC_TOKEN_BELOW)
+GET_BINARY_OPERATOR(get_e, get_t, TOK->type == ZCC_TOKEN_PLUS || TOK->type == ZCC_TOKEN_MINUS)
+GET_BINARY_OPERATOR(get_t, get_p, TOK->type == ZCC_TOKEN_MUL || TOK->type == ZCC_TOKEN_DIV)
+
+TreeNode *get_x(Token ***t)
+{
+    ASSERT_T();
+    
+    TreeNode *result = get_n(t);
+    if (result)
+        return result;
+    
+    return get_id(t);
+}
+
+TreeNode *get_n(Token ***t)
+{
+    ASSERT_T();
+
+    if (TOK->type == ZCC_TOKEN_CONST)
+    {
+        TreeNode *result = treenode_new(ZCC_TOKEN_CONST, TOK->data);
+        assert(TOK->data);
+        SHIFT_TOK();
+        return result;
+    }
+    else
+    {
+        return NULL;
+    }
+}
+
+#define TOK_NEXT (*(*t + 1))
+#define GET_ID_TOKEN() \
+TreeNode *id = treenode_new(ZCC_TOKEN_ID, TOK->data); \
+SHIFT_TOK(); \
+if (!id) \
+    SET_ERR(ZCC_ERR_ALLOC);
+
+TreeNode *get_id(Token ***t)
+{
+    ASSERT_T();
+
+    if (TOK->type == ZCC_TOKEN_ID)
+    {
+        if (TOK_NEXT->type == ZCC_TOKEN_BRACKET_RND_OPN)
+        {
+            TreeNode *call = get_fn_call(t);
+            return call;
+        }
+        else 
+        {
+            GET_ID_TOKEN();
+            return id;
+        }
+    }
+
+    rdp_error = ZCC_ERR_EXPECTED_ID;
+    return NULL;
+}
+
+TreeNode *get_fn_call(Token ***t)
+{
+    ASSERT_T();
+   
+    GET_ID_TOKEN(); 
+    if (!id)
+        return NULL;
+    TreeNode *prev = id;
+
+    SHIFT_TOK(); // skip open bracket
+    while (TOK->type != ZCC_TOKEN_BRACKET_RND_CLS && TOK->type != ZCC_TOKEN_EMPTY)    
+    {
+        TreeNode *d = get_d(t);
+        if (!d)
+            SET_ERR(ZCC_ERR_EXPECTED_EXPR);
+        TreeNode *sp = treenode_new(ZCC_TOKEN_SEMICOLON, NULL);
+        if (!sp)
+        {
+            treenode_del(id);
+            treenode_del(d);
+            SET_ERR(ZCC_ERR_ALLOC);
+        }
+        treenode_attachl(sp, d);
+        treenode_attachr(prev, sp);
+        prev = sp;
+
+        if (TOK->type == ZCC_TOKEN_COMMA)
+            SHIFT_TOK();
+        else
+            break;
+    }
+
+    if (TOK->type != ZCC_TOKEN_BRACKET_RND_CLS)
+    {
+        SET_ERR(ZCC_ERR_EXPECTED_BRACKET);
+        treenode_del(id);
+        return NULL;
+    }
+    SHIFT_TOK();
+    
+    id->type = ZCC_TOKEN_FN_CALL;
+    return id;
+}
+
+TreeNode *get_a(Token ***t)
+{
+    ASSERT_T();
+
+    TreeNode *var = get_id(t);
+    if (!var)
+        return NULL;
+
+    if (TOK->type != ZCC_TOKEN_ASSIGN)
+    {
+        SET_ERR(ZCC_ERR_EXPECTED_ASSIGN);
+        treenode_del(var);
+        return NULL;
+    }
+    SHIFT_TOK();
+
+    TreeNode *expr = get_d(t);
+    if (!expr)
+    {
+        treenode_del(var);
+        return NULL;
+    }
+
+    TreeNode *assign = treenode_new(ZCC_TOKEN_ASSIGN, NULL);
+    if (!assign)
+    {
+        treenode_del(var);
+        treenode_del(expr);
+        return NULL;
+    }
+    treenode_attachl(assign, var);
+    treenode_attachr(assign, expr);
+
+    return assign;
+}
+
+TreeNode *get_op(Token ***t)
+{
+    ASSERT_T(); 
+    TreeNode *a      = NULL;
+    TreeNode *sp     = NULL;
+    TreeNode *d      = NULL;
+    TreeNode *op     = NULL;
+    TreeNode *els_op = NULL;
+    TreeNode *ifnode = NULL;
+    TreeNode *whilenode = NULL;
+    TreeNode *r      = NULL;
+    TreeNode *condnode = NULL;
+    TreeNode *call   = NULL;
+
+    if (TOK->type != ZCC_TOKEN_BRACKET_CRL_OPN)
+    {
+        switch (TOK->type)
+        {
+        case ZCC_TOKEN_IF:
+            SHIFT_TOK();
+            if (TOK->type != ZCC_TOKEN_BRACKET_RND_OPN)
+                return NULL;
+            SHIFT_TOK();
+
+            d = get_d(t); 
+            assert(d);
+
+            if (TOK->type != ZCC_TOKEN_BRACKET_RND_CLS)
+            {
+                treenode_del(d);
+                return NULL;
+            }
+            SHIFT_TOK();
+
+            op = get_op(t);
+            assert(op);
+            
+            if (TOK->type == ZCC_TOKEN_ELSE)
+            {
+                SHIFT_TOK();
+                els_op = get_op(t);
+                assert(els_op);
+            }
+            ifnode = treenode_new(ZCC_TOKEN_IF, NULL);
+            assert(ifnode);
+            condnode = treenode_new(ZCC_TOKEN_SEMICOLON, NULL);
+            treenode_attachl(condnode, d);
+            if (els_op)
+                treenode_attachr(condnode, els_op);
+            treenode_attachl(ifnode, condnode);
+            treenode_attachr(ifnode, op);
+            sp = treenode_new(ZCC_TOKEN_SEMICOLON, NULL);
+            assert(sp);
+            treenode_attachl(sp, ifnode);
+            break;
+        case ZCC_TOKEN_WHILE:
+            SHIFT_TOK();
+            if (TOK->type != ZCC_TOKEN_BRACKET_RND_OPN)
+                return NULL;
+            SHIFT_TOK();
+
+            d = get_d(t); 
+            assert(d);
+
+            if (TOK->type != ZCC_TOKEN_BRACKET_RND_CLS)
+            {
+                treenode_del(d);
+                return NULL;
+            }
+            SHIFT_TOK();
+
+            op = get_op(t);
+            assert(op);
+            whilenode = treenode_new(ZCC_TOKEN_WHILE, NULL);
+            assert(whilenode);
+            treenode_attachl(whilenode, d);
+            treenode_attachr(whilenode, op);
+            sp = treenode_new(ZCC_TOKEN_SEMICOLON, NULL);
+            assert(sp);
+            treenode_attachl(sp, whilenode);
+            break;
+        case ZCC_TOKEN_RET:
+            SHIFT_TOK();
+            r = treenode_new(ZCC_TOKEN_RET, NULL);
+            assert(r);
+            d = get_d(t);
+            assert(d);
+            sp = get_sp(t);
+            assert(sp);
+            treenode_attachl(r, d);
+            treenode_attachl(sp, r);
+            break;
+        case ZCC_TOKEN_ID:
+            if ((*(*t + 1))->type == ZCC_TOKEN_ASSIGN)
+            {
+                a = get_a(t);
+                assert(a);
+                sp = get_sp(t);
+                assert(sp);
+                treenode_attachl(sp, a);
+            }
+            else 
+            {
+                call = get_fn_call(t);
+                assert(call);
+                sp = get_sp(t);
+                assert(sp);
+                treenode_attachl(sp, call);
+            }
+        default:
+            break;
+        }
+        return sp;
+    }
+    else
+    {
+        SHIFT_TOK();
+
+        op = get_op(t);
+        assert(op);
+        TreeNode *prev = op;
+
+        while (TOK->type != ZCC_TOKEN_BRACKET_CRL_CLS && TOK->type != ZCC_TOKEN_EMPTY)
+        {
+            TreeNode *op_new = get_op(t);
+            assert(op_new);
+            treenode_attachr(prev, op_new);
+            prev = op_new;
+        }
+
+        if (TOK->type != ZCC_TOKEN_BRACKET_CRL_CLS)
+        {
+            treenode_del(op);
+            return NULL;
+        }
+        SHIFT_TOK();
+
+        return op;
+    } 
+    return NULL;
+}
+
+TreeNode *get_sp(Token ***t)
+{
+    ASSERT_T();
+    if (TOK->type == ZCC_TOKEN_SEMICOLON)
+    {
+        SHIFT_TOK();
+        return treenode_new(ZCC_TOKEN_SEMICOLON, NULL);
+    }
+    else
+        return NULL;
+}
+
+TreeNode *get_p(Token ***t)
+{
+    ASSERT_T();
+    if (TOK->type == ZCC_TOKEN_BRACKET_RND_OPN)
+    {
+        SHIFT_TOK();
+
+        TreeNode *d = get_d(t);
+        if (TOK->type != ZCC_TOKEN_BRACKET_RND_CLS)
+        {
+            treenode_del(d);
+            rdp_error = ZCC_ERR_EXPECTED_BRACKET;
+            return NULL;
+        }
+        SHIFT_TOK();
+        return d;
+    }
+    else
+        return get_n(t);
+}
+
+static TreeNode *get_g0(Token **tokens, FuncMap *funcmap)
+{
+    assert(tokens);
+    assert(funcmap);
+    
+    Token **t = tokens;
+    TreeNode *result = get_prg(&t, funcmap);
+    if ((*t)->type == ZCC_TOKEN_EMPTY && rdp_error == ZCC_OK)
+    {
+        return result;
+    }
+    else if ((*t)->type != ZCC_TOKEN_EMPTY && rdp_error == ZCC_OK)
+        rdp_error = ZCC_ERR_UNEXPECTED_END;
+
+    printf("%d\n", (*t)->type);
+
+    treenode_del(result);
+    return NULL;
+}
+
+#define INSERT_VAR(_name_) \
+{ \
+    if (varmap_search(vars, _name_) != NULL) \
+        assert("!This variable already exists!"); \
+    assert(varmap_insert(vars, _name_, curoffset) == ZCC_OK); \
+    curoffset++; \
+}
+#define VAR_LOOP() \
+{ \
+    INSERT_VAR((char *)TOK->data); \
+    SHIFT_TOK(); \
+    if (TOK->type == ZCC_TOKEN_COMMA) \
+        SHIFT_TOK(); \
+}
+
+TreeNode *get_fn(Token ***t, FuncMap *funcmap)
+{
+    ASSERT_T();
+    assert(funcmap);
+
+    if (TOK->type != ZCC_TOKEN_FN)
+        return NULL;
+    SHIFT_TOK();
+
+    TreeNode *id = get_id(t);
+    assert(id);
+    if (funcmap_search(funcmap, (const char *)id->data))
+    {
+        rdp_error = ZCC_ERR_FUNC_REDEF;
+        return id;
+    }
+
+    if (TOK->type != ZCC_TOKEN_BRACKET_RND_OPN)
+    {
+        treenode_del(id);
+        return NULL;
+    }
+    SHIFT_TOK();
+
+    VarMap *vars = varmap_new();
+    size_t curoffset = 0;
+    assert(vars);
+
+    while (TOK->type == ZCC_TOKEN_ID)
+    {
+        VAR_LOOP();
+    }
+
+    if (TOK->type != ZCC_TOKEN_BRACKET_RND_CLS)
+    {
+        treenode_del(id);
+        return NULL;
+    }
+    SHIFT_TOK();
+
+    if (TOK->type == ZCC_TOKEN_VAR)
+    {
+        SHIFT_TOK();
+
+        while (TOK->type == ZCC_TOKEN_ID)
+            VAR_LOOP();
+
+        if (TOK->type == ZCC_TOKEN_SEMICOLON)
+            SHIFT_TOK();
+    }
+
+    TreeNode *body = get_op(t);
+    assert(body);
+    TreeNode *fn = treenode_new(ZCC_TOKEN_FN, NULL);
+    fn->data = vars;
+    assert(fn);
+    treenode_attachl(fn, id);
+    treenode_attachr(fn, body);
+    TreeNode *sp = treenode_new(ZCC_TOKEN_SEMICOLON, NULL);
+    assert(sp);
+    treenode_attachl(sp, fn);
+    funcmap_insert(funcmap, (const char *)id->data);
+    return sp;
+}
+
+TreeNode *get_prg(Token ***t, FuncMap *funcmap)
+{
+    ASSERT_T();
+    assert(funcmap);
+
+    TreeNode *start = get_fn(t, funcmap);
+    assert(start);
+    TreeNode *prev = start;
+
+    while (TOK->type != ZCC_TOKEN_EMPTY)
+    {
+        TreeNode *fn = get_fn(t, funcmap);
+        assert(fn);
+        treenode_attachr(prev, fn);
+        prev = fn;
+    }
+
+    return start;
+}
+
+TreeNode *rdp(Token **tokens, FuncMap *funcmap)
+{
+    assert(tokens);
+    assert(funcmap);
+    
+    return get_g0(tokens, funcmap);
+}

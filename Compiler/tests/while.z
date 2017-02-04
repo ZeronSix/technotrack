@@ -1,0 +1,11 @@
+fn main()
+var
+    d;
+{
+    d = 0;
+    while (d < 5)
+    {
+        d = d + 1;
+        print(d);
+    }
+}

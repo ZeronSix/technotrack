@@ -12,7 +12,7 @@
 /*!
  * Canary
  */
-typedef int Canary;
+typedef unsigned Canary;
 /*!
  * Canary value for TreeNode.
  */
